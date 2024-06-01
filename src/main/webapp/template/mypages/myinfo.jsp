@@ -1,5 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="user.User" %>
+<%@ page import="user.UserDao" %>
+<%@ page import="java.io.PrintWriter" %>
+<%
+    request.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
+
+    // 로그인된 사용자 정보 가져오기
+    String userEmail = (String) session.getAttribute("userEmail");
+    UserDao userDao = new UserDao();
+    User user = userDao.getUserByEmail(userEmail);
+
+    // 폼 제출 처리
+    String currentPassword = request.getParameter("currentPassword");
+    String newPassword = request.getParameter("newPassword");
+    String newName = request.getParameter("newName");
+    String newBirth = request.getParameter("newBirth");
+    String newPnum = request.getParameter("newPnum");
+    String newAddress = request.getParameter("newAddress");
+
+    if (currentPassword != null) {
+        boolean updateSuccess = userDao.updateUserInfo(userEmail, userEmail, currentPassword, newPassword, newName, newBirth, newPnum, newAddress);
+
+        if (updateSuccess) {
+            out.println("<script>alert('정상적으로 수정되었습니다.'); location.href='myinfo.jsp';</script>");
+        } else {
+            out.println("<script>alert('정보 수정에 실패했습니다.'); history.back();</script>");
+        }
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,41 +57,37 @@
 
         <div class="container myinfo">
             <h2>개인정보확인/수정</h2>
-            <form>
+            <form method="post">
                 <table class="info-table">
                     <tr>
                         <td>아이디(이메일)</td>
-                        <td><input type="email" value="abc1234@naver.com" readonly></td>
-                        <td><input type="email" placeholder="변경할 이메일을 입력"></td>
+                        <td><input type="email" value="<%= user.getUserEmail() %>" readonly></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>비밀번호</td>
-                        <td><input type="password" placeholder="현재 비밀번호 입력"></td>
-                        <td><input type="password" placeholder="새 비밀번호 입력"></td>
+                        <td><input type="password" name="currentPassword" placeholder="현재 비밀번호 입력"></td>
+                        <td><input type="password" name="newPassword" placeholder="새 비밀번호 입력"></td>
                     </tr>
                     <tr>
                         <td>이름</td>
-                        <td><input type="text" value="홍길동" readonly></td>
-                        <td><input type="text" placeholder="변경할 이름 입력"></td>
+                        <td><input type="text" value="<%= user.getUserName() %>" readonly></td>
+                        <td><input type="text" name="newName" placeholder="변경할 이름 입력"></td>
                     </tr>
                     <tr>
                         <td>생년월일</td>
-                        <td><input type="text" value="2000.01.12" readonly></td>
-                        <td><input type="text" placeholder="변경할 생년월일 입력"></td>
+                        <td><input type="text" value="<%= user.getUserBirth() %>" readonly></td>
+                        <td><input type="text" name="newBirth" placeholder="변경할 생년월일 입력"></td>
                     </tr>
                     <tr>
                         <td>핸드폰번호</td>
-                        <td><input type="text" value="010-1234-5678" readonly></td>
-                        <td><input type="text" placeholder="변경할 전화번호 입력"></td>
+                        <td><input type="text" value="<%= user.getUserPnum() %>" readonly></td>
+                        <td><input type="text" name="newPnum" placeholder="변경할 전화번호 입력"></td>
                     </tr>
                     <tr>
                         <td>주소</td>
-                        <td><input type="text" value="광주 광산구" readonly></td>
-                        <td><input type="text" placeholder="변경할 주소 입력"></td>
-                    </tr>
-                    <tr>
-                        <td>대학생 증명</td>
-                        <td colspan="2"><input type="text" value="증명 완료" readonly></td>
+                        <td><input type="text" value="<%= user.getUserAddress() %>" readonly></td>
+                        <td><input type="text" name="newAddress" placeholder="변경할 주소 입력"></td>
                     </tr>
                 </table>
                 <div class="buttons">
