@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
 </head>
 <body>
-	<%
-		String userEmail = null;
-		if (session.getAttribute("userEmail") != null){
-			userEmail = (String) session.getAttribute("userEmail");
-		}
-	%>
-	
-	<%
-		if(userEmail == null) {
-	%>
+    <%
+        String userEmail = null;
+        if (session.getAttribute("userEmail") != null){
+            userEmail = (String) session.getAttribute("userEmail");
+        }
+    %>
+    
+    <%
+        if(userEmail == null) {
+    %>
     <div class="header">
         <div class="logo"><a href="mainpage.jsp">발로렌트</a></div>
         <div class="nav">
@@ -27,22 +27,23 @@
             <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
         </div>
     </div>
-	
-	<%
-		} else {
-	%>
-	<div class="header">
+    
+    <%
+        } else {
+    %>
+    <div class="header">
        <div class="logo"><a href="/template/mainpage.html">발로렌트</a></div>
        <div class="nav">
            <div><a href="notice.html"><button>공지사항</button></a></div>
            <div><a href="about.html"><button>회사소개</button></a></div>
            <div><a href="contact.html"><button>문의하기</button></a></div>
+           <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button>마이페이지</button></a></div>
            <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
        </div>
     </div>
-	<%
-		}
-	%>
+    <%
+        }
+    %>
     <div class="main-container">
         <div class="main-section">
             <a href="notebook.html">
@@ -70,19 +71,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>맥북</td>            <!-- 더미 -->
-                        <td>25,000원</td>        <!-- 더미 -->
-                        <td>홍길동</td>            <!-- 더미 -->
+                        <td>맥북</td>
+                        <td>25,000원</td>
+                        <td>홍길동</td>
                     </tr>
                     <tr>
-                        <td>갤럭시 오디세이</td>    <!-- 더미 -->
-                        <td>35,000원</td>        <!-- 더미 -->
-                        <td>홍길동</td>            <!-- 더미 -->
+                        <td>갤럭시 오디세이</td>
+                        <td>35,000원</td>
+                        <td>홍길동</td>
                     </tr>
                     <tr>
-                        <td>아이패드 Air 5</td>    <!-- 더미 -->
-                        <td>22,000원</td>        <!-- 더미 -->
-                        <td>홍길동</td>            <!-- 더미 -->
+                        <td>아이패드 Air 5</td>
+                        <td>22,000원</td>
+                        <td>홍길동</td>
                     </tr>
                 </tbody>
             </table>
@@ -97,7 +98,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2">허위 매물 처벌합니다</td> <!-- 더미 -->
+                        <td colspan="2">허위 매물 처벌합니다</td>
                     </tr>
                 </tbody>
             </table>
@@ -112,4 +113,3 @@
     </div>
 </body>
 </html>
-

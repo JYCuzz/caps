@@ -16,7 +16,7 @@
         alert("로그아웃이 성공적으로 완료되었습니다.");
         
         // login.jsp 페이지로 이동합니다.
-        window.location.href = "<%= request.getContextPath() %>/template/login.jsp";
+        window.location.href = "<%= request.getContextPath() %>/template/mainpage.jsp";
     </script>
 </body>
 </html>
