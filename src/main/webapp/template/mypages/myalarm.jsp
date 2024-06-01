@@ -10,20 +10,20 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo"><a href="/template/mainpage.html">발로렌트</a></div>
+        <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
         <div class="nav">
-            <div><a href="notice.html"><button>공지사항</button></a></div>
-            <div><a href="about.html"><button>회사소개</button></a></div>
-            <div><a href="contact.html"><button>문의하기</button></a></div>
+            <div><a href="notice.jsp"><button>공지사항</button></a></div>
+            <div><a href="about.jsp"><button>회사소개</button></a></div>
+            <div><a href="contact.jsp"><button>문의하기</button></a></div>
         </div>
     </div>
 
     <div class="mypage-container">
         <div class="mypage-sidebar">
-            <a href="myinfo.html"><button>개인정보확인/수정</button></a>
-            <a href="myrentlist.html"><button>대여내역</button></a>
-            <a href="myalarm.html"><button>알림내역</button></a>
-            <a href="myinquiry.html"><button>문의하기/내역확인</button></a>
+            <a href="myinfo.jsp"><button>개인정보확인/수정</button></a>
+            <a href="myrentlist.jsp"><button>대여내역</button></a>
+            <a href="myalarm.jsp"><button>알림내역</button></a>
+            <a href="myinquiry.jsp"><button>문의하기/내역확인</button></a>
         </div>
 
         <div class="notifications-container">
@@ -43,10 +43,10 @@
     </div>
 
     <div class="footer">
-        <a href="/template/footers/terms.html">이용약관</a> | 
-        <a href="/template/footers/trade_terms.html">거래약관</a> | 
-        <a href="/template/footers/privacy.html">개인정보 취급방침</a> | 
-        <a href="/template/footers/support.html">임차자 1대1 문의</a>
+        <a href="${pageContext.request.contextPath}/template/footers/terms.jsp">이용약관</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/trade_terms.jsp">거래약관</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/privacy.jsp">개인정보 취급방침</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/support.jsp">임차자 1대1 문의</a>
     </div>
 </body>
 </html>

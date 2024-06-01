@@ -16,43 +16,31 @@
         }
     %>
     
-    <%
-        if(userEmail == null) {
-    %>
     <div class="header">
-        <div class="logo"><a href="mainpage.jsp">발로렌트</a></div>
+        <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
         <div class="nav">
-            <div><a href="notice.html">공지사항</a></div>
-            <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
-            <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
+            <div><a href="notice.jsp">공지사항</a></div>
+            <% if (userEmail == null) { %>
+                <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
+                <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
+            <% } else { %>
+                <div><a href="about.jsp"><button>회사소개</button></a></div>
+                <div><a href="contact.jsp"><button>문의하기</button></a></div>
+                <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button>마이페이지</button></a></div>
+                <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
+            <% } %>
         </div>
     </div>
-    
-    <%
-        } else {
-    %>
-    <div class="header">
-       <div class="logo"><a href="/template/mainpage.html">발로렌트</a></div>
-       <div class="nav">
-           <div><a href="notice.html"><button>공지사항</button></a></div>
-           <div><a href="about.html"><button>회사소개</button></a></div>
-           <div><a href="contact.html"><button>문의하기</button></a></div>
-           <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button>마이페이지</button></a></div>
-           <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
-       </div>
-    </div>
-    <%
-        }
-    %>
+
     <div class="main-container">
         <div class="main-section">
-            <a href="notebook.html">
+            <a href="notebook.jsp">
                 <img src="${pageContext.request.contextPath}/static/img/laptop.jpg" alt="노트북 대여">
                 <p>노트북 대여</p>
             </a>
         </div>
         <div class="main-section">
-            <a href="pad.html">
+            <a href="pad.jsp">
                 <img src="${pageContext.request.contextPath}/static/img/tablet.jpg" alt="패드/탭 대여">
                 <p>패드/탭 대여</p>
             </a>

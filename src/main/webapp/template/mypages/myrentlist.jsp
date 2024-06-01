@@ -58,10 +58,10 @@
     </div>
 
     <div class="footer">
-        <a href="/template/footers/terms.jsp">이용약관</a> | 
-        <a href="/template/footers/trade_terms.jsp">거래약관</a> | 
-        <a href="/template/footers/privacy.jsp">개인정보 취급방침</a> | 
-        <a href="/template/footers/support.jsp">임차자 1대1 문의</a>
+        <a href="${pageContext.request.contextPath}template/footers/terms.jsp">이용약관</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/trade_terms.jsp">거래약관</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/privacy.jsp">개인정보 취급방침</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/support.jsp">임차자 1대1 문의</a>
     </div>
 </body>
 </html>
