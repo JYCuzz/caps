@@ -22,6 +22,19 @@
     </head>
 <body>
     <%
+		String userEmail = null;
+		if(session.getAttribute("userEmail") != null){
+			userEmail = (String) session.getAttribute("userEmail");
+		}
+		
+		if (userEmail != null) {
+	        PrintWriter script = response.getWriter();
+	        script.println("<script>");
+	        script.println("alert('이미 로그인이 되어있습니다.')");
+	        script.println("location.href = '" + request.getContextPath() + "/template/mainpage.jsp';");
+	        script.println("</script>");
+		}
+		
         if (user.getUserEmail() == null || user.getUserPassword() == null || user.getUserName() == null || user.getUserGender() == null ||
             user.getUserBirth() == null || user.getUserPnum() == null || user.getUserAddress() == null || user.getUserStudent() == null) {
             PrintWriter script = response.getWriter();

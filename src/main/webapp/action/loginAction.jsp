@@ -14,10 +14,23 @@
     <title>발로렌트</title>
 </head>
 <body>
-    <%
+    <%	
+    	String userEmail = null;
+    	if(session.getAttribute("userEmail") != null){
+    		userEmail = (String) session.getAttribute("userEmail");
+    	}
+    	
+    	if (userEmail != null) {
+            PrintWriter script = response.getWriter();
+            script.println("<script>");
+            script.println("alert('이미 로그인이 되어있습니다.')");
+            script.println("location.href = '" + request.getContextPath() + "/template/mainpage.jsp';");
+            script.println("</script>");
+    	}
         UserDao userDAO = new UserDao();
         int result = userDAO.login(user.getUserEmail(), user.getUserPassword());
         if (result == 1) {
+        	session.setAttribute("userEmail", user.getUserEmail());
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("location.href = '" + request.getContextPath() + "/template/mainpage.jsp';");

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +9,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
 </head>
 <body>
+	<%
+		String userEmail = null;
+		if (session.getAttribute("userEmail") != null){
+			userEmail = (String) session.getAttribute("userEmail");
+		}
+	%>
+	
+	<%
+		if(userEmail == null) {
+	%>
     <div class="header">
         <div class="logo"><a href="mainpage.jsp">발로렌트</a></div>
         <div class="nav">
@@ -16,7 +27,22 @@
             <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
         </div>
     </div>
-
+	
+	<%
+		} else {
+	%>
+	<div class="header">
+       <div class="logo"><a href="/template/mainpage.html">발로렌트</a></div>
+       <div class="nav">
+           <div><a href="notice.html"><button>공지사항</button></a></div>
+           <div><a href="about.html"><button>회사소개</button></a></div>
+           <div><a href="contact.html"><button>문의하기</button></a></div>
+           <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
+       </div>
+    </div>
+	<%
+		}
+	%>
     <div class="main-container">
         <div class="main-section">
             <a href="notebook.html">
