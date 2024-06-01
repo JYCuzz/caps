@@ -1,23 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>발로렌트</title>
-        <!-- css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css">
-    </head>
-    
-    <body>
-      <form method="post" action="${pageContext.request.contextPath}/action/signupAction.jsp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>발로렌트</title>
+    <!-- css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
+</head>
+
+<body>
+	<button class="home-button" onclick="window.location.href='/template/mainpage.html'">홈페이지로 돌아가기</button>
+    <form method="post" action="${pageContext.request.contextPath}/action/signupAction.jsp">
         <div class="signup-container-wrapper">
             <div class="signup-container">
                 <h1 class="title">회원가입</h1>
                 <div class="input-group">
-                    <label for="username" class="input-label">아이디</label>
-                    <input type="text" id="username" placeholder="아이디" onkeyup="checkUsername()" name="userEmail">
+                    <label for="username" class="input-label">이메일</label>
+                    <input type="text" id="username" placeholder="이메일" onkeyup="checkUsername()" name="userEmail">
                     <small id="username-message"></small>
                 </div>
                 <div class="input-group">
@@ -60,8 +60,8 @@
                 <button type="submit" class="btn btn-primary form-control" id="signup-button">가입하기</button>
             </div>
         </div>
-     </form>
-    </body>
-    <!-- javascript -->
-    <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+    </form>
+</body>
+<!-- javascript -->
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 </html>

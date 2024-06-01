@@ -1,4 +1,3 @@
-// 아이디 중복 확인
 function checkUsername() {
     const usernameInput = document.getElementById("username");
     const message = document.getElementById("username-message");
@@ -57,12 +56,14 @@ function validateForm() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const signupButton = document.getElementById('signup-button');
-    signupButton.addEventListener('click', () => {
-        // 회원가입 성공 팝업
-        if (validateForm()) {
-            alert('가입에 성공하였습니다.');
-            window.location.href = "mainpage.html";
+
+    signupButton.addEventListener('click', (event) => {
+        if (!validateForm()) {
+            event.preventDefault(); // 폼 제출 막기
+            alert('폼을 올바르게 작성해 주세요.');
+        } else {
+            alert('회원가입이 정상적으로 완료되었습니다.');
+            window.location.href = "${pageContext.request.contextPath}/template/login.jsp";
         }
     });
 });
-
