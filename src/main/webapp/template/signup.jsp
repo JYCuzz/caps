@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<button class="home-button" onclick="window.location.href='/template/mainpage.html'">홈페이지로 돌아가기</button>
+	<button class="home-button" onclick="window.location.href='${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/template/mainpage.jsp'">홈페이지로 돌아가기</button>
     <form method="post" action="${pageContext.request.contextPath}/action/signupAction.jsp">
         <div class="signup-container-wrapper">
             <div class="signup-container">

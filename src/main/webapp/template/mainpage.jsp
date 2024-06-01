@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo"><a href="mainpage.html">발로렌트</a></div>
+        <div class="logo"><a href="mainpage.jsp">발로렌트</a></div>
         <div class="nav">
             <div><a href="notice.html">공지사항</a></div>
             <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
@@ -79,10 +79,10 @@
     </div>
 
     <div class="footer">
-        <a href="${pageContext.request.contextPath}/template/login.jspfooters/terms.html">이용약관</a> | 
-        <a href="${pageContext.request.contextPath}/template/login.jspfooters/trade_terms.html">거래약관</a> | 
-        <a href="${pageContext.request.contextPath}/template/login.jspfooters/privacy.html">개인정보 취급방침</a> | 
-        <a href="${pageContext.request.contextPath}/template/login.jspfooters/support.html">임차자 1대1 문의</a>
+        <a href="${pageContext.request.contextPath}/template/footers/terms.jsp">이용약관</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/trade_terms.jsp">거래약관</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/privacy.jsp">개인정보 취급방침</a> | 
+        <a href="${pageContext.request.contextPath}/template/footers/support.jsp">임차자 1대1 문의</a>
     </div>
 </body>
 </html>
