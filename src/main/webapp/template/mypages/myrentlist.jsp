@@ -39,7 +39,9 @@
             
             <h2>대여해준 물품</h2>
             <div class="register-button-container">
-                <button class="register-button">대여물품 등록</button>
+                <a href="${pageContext.request.contextPath}/template/registerRent.jsp">
+    				<button class="register-button">물품 등록</button>
+				</a>
             </div>
             <table class="rental-table">
                 <tr>
