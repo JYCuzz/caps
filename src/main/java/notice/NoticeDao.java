@@ -43,4 +43,20 @@ public class NoticeDao {
         }
         return notices;
     }
+    
+    // 공지사항의 제목만 가져오는 새로운 메소드
+    public List<String> getAllNoticeTitles() {
+        List<String> titles = new ArrayList<>();
+        String SQL = "SELECT title FROM notice";
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                titles.add(rs.getString("title"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return titles;
+    }
 }

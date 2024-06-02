@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="notice.NoticeDao" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -59,13 +61,20 @@
                 <thead>
                     <tr>
                         <th>공지사항</th>
-                        <th>더보기</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <%
+                        NoticeDao noticeDao = new NoticeDao();
+                        List<String> noticeTitles = noticeDao.getAllNoticeTitles();
+                        for (String title : noticeTitles) {
+                    %>
                     <tr>
-                        <td colspan="2">허위 매물 처벌합니다</td>
+                        <td colspan="2"><%= title %></td>
                     </tr>
+                    <%
+                        }
+                    %>
                 </tbody>
             </table>
         </div>
