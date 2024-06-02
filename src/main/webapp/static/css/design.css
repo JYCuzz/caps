@@ -462,3 +462,371 @@ a:hover {
     padding: 15px;
     border: 1px solid #ccc;
 }
+
+/**************************************************************************************************
+***************************************************************************************************
+***************************************************************************************************/
+
+/* 공지사항(noticeboard) */
+section.noticeboard {
+    padding: 80px 0;
+}
+
+.noticeboard-title {
+    margin-bottom: 60px;
+}
+.noticeboard-title h3 {
+    font-size: 28px;
+    color: #333333;
+    font-weight: 400;
+    text-align: center;
+}
+
+#board-search .search-window {
+    padding: 15px 0;
+    background-color: #f9f7f9;
+}
+#board-search .search-window .search-wrap {
+    position: relative;
+/*   padding-right: 124px; */
+    margin: 0 auto;
+    width: 80%;
+    max-width: 564px;
+}
+#board-search .search-window .search-wrap input {
+    height: 40px;
+    width: 100%;
+    font-size: 14px;
+    padding: 7px 14px;
+    border: 1px solid #ccc;
+}
+#board-search .search-window .search-wrap input:focus {
+    border-color: #333;
+    outline: 0;
+    border-width: 1px;
+}
+#board-search .search-window .search-wrap .noticeboard-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 108px;
+    padding: 0;
+    font-size: 16px;
+}
+
+.board-table {
+    font-size: 13px;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.board-table a {
+    color: #333;
+    display: inline-block;
+    line-height: 1.4;
+    word-break: break-all;
+    vertical-align: middle;
+}
+.board-table a:hover {
+    text-decoration: underline;
+}
+.board-table th {
+    text-align: center;
+}
+
+.board-table .th-num {
+    width: 100px;
+    text-align: center;
+}
+
+.board-table .th-date {
+    width: 200px;
+}
+
+.board-table th, .board-table td {
+    padding: 14px 0;
+}
+
+.board-table tbody td {
+    border-top: 1px solid #e7e7e7;
+    text-align: center;
+}
+
+.board-table tbody th {
+    padding-left: 28px;
+    padding-right: 14px;
+    border-top: 1px solid #e7e7e7;
+    text-align: left;
+}
+
+.board-table tbody th p{
+    display: none;
+}
+
+.noticeboard-btn {
+    display: inline-block;
+    padding: 0 30px;
+    font-size: 15px;
+    font-weight: 400;
+    background: transparent;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.noticeboard-btn-dark {
+    background: #555;
+    color: #fff;
+}
+
+.noticeboard-btn-dark:hover, .noticeboard-btn-dark:focus {
+    background: #373737;
+    border-color: #373737;
+    color: #fff;
+}
+
+
+/* reset */
+
+    .noticeboard-container {
+    width: 1100px;
+    margin: 0 auto;
+}
+    .noticeboard-blind {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    margin: -1px;
+    width: 1px;
+    height: 1px;
+}
+
+/**************************************************************************************************
+***************************************************************************************************
+***************************************************************************************************/
+
+/* item창 (itempage) */
+.item-main-content {
+    display: flex;
+    padding: 20px;
+}
+.item-sidebar {
+    flex: 1;
+    padding: 20px;
+    background-color: #ececec;
+    border-radius: 10px;
+    margin-right: 20px;
+    text-align: center;
+}
+.item-category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.item-category p {
+    margin: 0;
+}
+.item-icon img {
+    width: 30px;
+    height: 30px;
+}
+.item-product-image img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+.item-thumbnail-images img {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    cursor: pointer;
+}
+.item-product-details {
+    flex: 2;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.item-product-details h1 {
+    margin-top: 0;
+}
+.item-search {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+.item-search input {
+    padding: 5px;
+    margin-right: 5px;
+}
+.item-product-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+.item-product-details ul li {
+    margin-bottom: 10px;
+}
+.item-product-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.item-product-details table, 
+.item-product-details table td {
+    border: 1px solid #ccc;
+}
+.item-product-details table td {
+    padding: 10px;
+}
+.item-shipping-details {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* 경계선을 추가하여 구분 */
+}
+.item-rent-button {
+    background-color: black;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px; /* 상단 간격 추가 */
+}
+.item-rent-button:hover {
+    background-color: #333;
+}
+
+/**************************************************************************************************
+***************************************************************************************************
+***************************************************************************************************/
+
+/* laptop창 (laptop.html) */
+.laptop-main-content {
+    padding: 20px;
+}
+.laptop-keywords {
+    margin-bottom: 20px;
+}
+.laptop-keywords h2 {
+    text-align: center;
+}
+.laptop-keyword-box {
+    display: flex;
+    justify-content: center;
+    background-color: #f7e6e6;
+    padding: 10px;
+    border-radius: 10px;
+}
+.laptop-keyword-box span {
+    margin: 0 10px;
+    font-size: 18px;
+}
+.laptop-search {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+.laptop-search input {
+    padding: 5px;
+    margin-right: 5px;
+}
+.laptop-item-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.laptop-item {
+    background-color: #ececec;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 200px;
+}
+.laptop-item img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+/**************************************************************************************************
+***************************************************************************************************
+***************************************************************************************************/
+
+/* tablet창 (tablet.html) */
+.tablet-main-content {
+    padding: 20px;
+}
+.tablet-keywords {
+    margin-bottom: 20px;
+}
+.tablet-keywords h2 {
+    text-align: center;
+}
+.tablet-keyword-box {
+    display: flex;
+    justify-content: center;
+    background-color: #f7e6e6;
+    padding: 10px;
+    border-radius: 10px;
+}
+.tablet-keyword-box span {
+    margin: 0 10px;
+    font-size: 18px;
+}
+.tablet-search {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+.tablet-search input {
+    padding: 5px;
+    margin-right: 5px;
+}
+.tablet-item-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.tablet-item {
+    background-color: #ececec;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 200px;
+}
+.tablet-item img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
