@@ -14,7 +14,7 @@ public class NoticeDao {
 
     public NoticeDao() {
         try {
-            String dbURL = "jdbc:mysql://localhost:3306/caps";
+            String dbURL = "jdbc:mysql://localhost:3307/caps";
             String dbID = "root";
             String dbPassword = "0000";
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -24,10 +24,10 @@ public class NoticeDao {
         }
     }
 
-    // 기존의 공지사항 전체를 가져오는 메서드
+    // 공지사항 전체를 최신 순서대로 가져오는 메서드
     public List<Notice> getAllNotices() {
         List<Notice> notices = new ArrayList<>();
-        String SQL = "SELECT * FROM notice";
+        String SQL = "SELECT * FROM notice ORDER BY date DESC"; // 날짜를 기준으로 내림차순 정렬
         try {
             pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();

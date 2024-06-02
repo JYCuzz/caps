@@ -70,7 +70,7 @@
                 <tbody>
                     <%
                         NoticeDao noticeDao = new NoticeDao();
-                        List<Notice> notices = noticeDao.getAllNotices();
+                        List<Notice> notices = noticeDao.getAllNotices(); // 날짜 순서로 정렬된 공지사항 목록
                         int count = 0;
                         for (Notice notice : notices) {
                             if (count >= 5) {
