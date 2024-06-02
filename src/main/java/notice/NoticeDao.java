@@ -14,7 +14,7 @@ public class NoticeDao {
 
     public NoticeDao() {
         try {
-            String dbURL = "jdbc:mysql://localhost:3307/caps";
+            String dbURL = "jdbc:mysql://localhost:3306/caps";
             String dbID = "root";
             String dbPassword = "0000";
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -45,7 +45,29 @@ public class NoticeDao {
         return notices;
     }
 
-    // 공지사항의 제목만 가져오는 새로운 메서드
+    // 제목으로 공지사항을 검색하는 메서드 (LIKE 연산자 사용)
+    public List<Notice> getNoticesByTitle(String searchKeyword) {
+        List<Notice> notices = new ArrayList<>();
+        String SQL = "SELECT * FROM notice WHERE title LIKE ? ORDER BY date DESC"; // 날짜를 기준으로 내림차순 정렬
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, "%" + searchKeyword + "%");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Notice notice = new Notice();
+                notice.setUserEmail(rs.getString("userEmail"));
+                notice.setTitle(rs.getString("title"));
+                notice.setContent(rs.getString("content"));
+                notice.setDate(rs.getString("date"));
+                notices.add(notice);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return notices;
+    }
+
+    // 공지사항의 제목만 가져오는 메서드
     public List<String> getAllNoticeTitles() {
         List<String> titles = new ArrayList<>();
         String SQL = "SELECT title FROM notice";

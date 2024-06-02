@@ -22,10 +22,10 @@
         <div id="board-search">
             <div class="noticeboard-container">
                 <div class="search-window">
-                    <form action="">
+                    <form action="noticeboard.jsp" method="get">
                         <div class="search-wrap">
                             <label for="search" class="noticeboard-blind">공지사항 내용 검색</label>
-                            <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                            <input id="search" type="search" name="search" placeholder="검색어를 입력해주세요." value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
                             <button type="submit" class="noticeboard-btn noticeboard-btn-dark">검색</button>
                         </div>
                     </form>
@@ -59,8 +59,14 @@
                     </thead>
                     <tbody>
                         <%
+                            String searchKeyword = request.getParameter("search");
                             NoticeDao noticeDao = new NoticeDao();
-                            List<Notice> notices = noticeDao.getAllNotices();
+                            List<Notice> notices;
+                            if (searchKeyword != null && !searchKeyword.isEmpty()) {
+                                notices = noticeDao.getNoticesByTitle(searchKeyword);
+                            } else {
+                                notices = noticeDao.getAllNotices();
+                            }
                             int number = 1;
                             for (Notice notice : notices) {
                                 String email = notice.getUserEmail();

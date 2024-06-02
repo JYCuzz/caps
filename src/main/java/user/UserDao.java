@@ -12,7 +12,7 @@ public class UserDao {
 
     public UserDao() {
         try {
-            String dbURL = "jdbc:mysql://localhost:3307/caps";
+            String dbURL = "jdbc:mysql://localhost:3306/caps";
             String dbID = "root";
             String dbPassword = "0000";
             Class.forName("com.mysql.cj.jdbc.Driver");
