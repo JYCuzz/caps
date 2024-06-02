@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="notice.NoticeDao" %>
 <%@ page import="java.util.List" %>
+<%@ page import="notice.NoticeDao, notice.Notice" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -60,19 +60,29 @@
             <table>
                 <thead>
                     <tr>
-                        <th>공지사항</th>
+                        <th colspan="2">
+                            <button onclick="location.href='${pageContext.request.contextPath}/template/noticeboard.jsp'" style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; outline:inherit;">
+                                공지사항
+                            </button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <%
                         NoticeDao noticeDao = new NoticeDao();
-                        List<String> noticeTitles = noticeDao.getAllNoticeTitles();
-                        for (String title : noticeTitles) {
+                        List<Notice> notices = noticeDao.getAllNotices();
+                        int count = 0;
+                        for (Notice notice : notices) {
+                            if (count >= 5) {
+                                break;
+                            }
                     %>
                     <tr>
-                        <td colspan="2"><%= title %></td>
+                        <td><%= notice.getTitle() %></td>
+                        <td><%= notice.getDate() %></td>
                     </tr>
                     <%
+                            count++;
                         }
                     %>
                 </tbody>
