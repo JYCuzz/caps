@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,16 +11,29 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
 </head>
 <body>
+	<%
+        String userEmail = null;
+        if (session.getAttribute("userEmail") != null){
+            userEmail = (String) session.getAttribute("userEmail");
+        }
+    %>
+    
     <div class="header">
-        <div class="logo"><a href="mainpage.html">발로렌트</a></div>
+        <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
         <div class="nav">
-            <div><a href="noticeboard.html">공지사항</a></div>
-            <div><a href="mypages/myrentlist.html">마이페이지</a></div>
-            <div><a href="signup.html">회원가입</a></div>
-            <div><a href="login.html"><button>로그인</button></a></div>
+            <div><a href="${pageContext.request.contextPath}/template/noticeboard.jsp">공지사항</a></div>
+            <% if (userEmail == null) { %>
+                <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
+                <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
+            <% } else { %>
+                <div><a href="about.jsp"><button>회사소개</button></a></div>
+                <div><a href="contact.jsp"><button>문의하기</button></a></div>
+                <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button>마이페이지</button></a></div>
+                <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
+            <% } %>
         </div>
     </div>
-
+    
     <main class="item-main-content">
         <div class="item-sidebar">
             <div class="item-category">

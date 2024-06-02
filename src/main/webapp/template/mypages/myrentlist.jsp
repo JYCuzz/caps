@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +10,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
 </head>
 <body>
+
+	<%
+        String userEmail = null;
+        if (session.getAttribute("userEmail") != null){
+            userEmail = (String) session.getAttribute("userEmail");
+        }
+    %>
+    
     <div class="header">
         <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
         <div class="nav">

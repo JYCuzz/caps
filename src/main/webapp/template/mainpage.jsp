@@ -19,7 +19,7 @@
     <div class="header">
         <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
         <div class="nav">
-            <div><a href="notice.jsp">공지사항</a></div>
+            <div><a href="${pageContext.request.contextPath}/template/noticeboard.jsp">공지사항</a></div>
             <% if (userEmail == null) { %>
                 <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
                 <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
@@ -34,13 +34,13 @@
 
     <div class="main-container">
         <div class="main-section">
-            <a href="notebook.jsp">
+            <a href="${pageContext.request.contextPath}/template/laptop.jsp">
                 <img src="${pageContext.request.contextPath}/static/img/laptop.jpg" alt="노트북 대여">
                 <p>노트북 대여</p>
             </a>
         </div>
         <div class="main-section">
-            <a href="pad.jsp">
+            <a href="${pageContext.request.contextPath}/template/tablet.jsp">
                 <img src="${pageContext.request.contextPath}/static/img/tablet.jpg" alt="패드/탭 대여">
                 <p>패드/탭 대여</p>
             </a>
