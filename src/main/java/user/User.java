@@ -9,6 +9,7 @@ public class User {
 	private String userPnum;
 	private String userAddress;
 	private String userStudent;
+	
 	public String getUserEmail() {
 		return userEmail;
 	}

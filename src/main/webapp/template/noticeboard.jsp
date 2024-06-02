@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, notice.*" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,29 +40,27 @@
                     <thead>
                         <tr>
                             <th scope="col" class="th-num">번호</th>
+                            <th scope="col" class="th-userName">작성자</th>
                             <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-date">등록일</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <%
+                            NoticeDao noticeDao = new NoticeDao();
+                            List<Notice> notices = noticeDao.getAllNotices();
+                            int number = 1;
+                            for (Notice notice : notices) {
+                        %>
                         <tr>
-                            <td>3</td>
-                            <th>
-                                <a href="#">[공지사항] 개인정보 처리방침 변경안내처리방침</a>
-                                <p>테스트</p>
-                            </th>
-                            <td>2024.06.02</td>
+                            <td><%= number++ %></td>
+                            <td><%= notice.getUserEmail() %></td>
+                            <td><a href="#"><%= notice.getTitle() %></a></td>
+                            <td><%= notice.getDate() %></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <th><a href="#">[공지사항] 이용약관 안내</a></th>
-                            <td>2024.06.02</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <th><a href="#">[공지사항] 공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
-                            <td>2024.06.02</td>
-                        </tr>
+                        <%
+                            }
+                        %>
                     </tbody>
                 </table>
             </div>
