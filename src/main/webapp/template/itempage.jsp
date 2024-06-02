@@ -21,13 +21,10 @@
     <div class="header">
         <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
         <div class="nav">
-            <div><a href="${pageContext.request.contextPath}/template/noticeboard.jsp">공지사항</a></div>
             <% if (userEmail == null) { %>
                 <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
                 <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
             <% } else { %>
-                <div><a href="about.jsp"><button>회사소개</button></a></div>
-                <div><a href="contact.jsp"><button>문의하기</button></a></div>
                 <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button>마이페이지</button></a></div>
                 <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
             <% } %>
@@ -91,10 +88,10 @@
     </main>
 
     <div class="footer">
+    	<a href="${pageContext.request.contextPath}/template/noticeboard.jsp">공지사항</a> |
         <a href="${pageContext.request.contextPath}/template/footers/terms.jsp">이용약관</a> | 
-        <a href="${pageContext.request.contextPath}/template/footers/trade_terms.jsp">거래약관</a> | 
         <a href="${pageContext.request.contextPath}/template/footers/privacy.jsp">개인정보 취급방침</a> | 
-        <a href="${pageContext.request.contextPath}/template/footers/support.jsp">임차자 1대1 문의</a>
+        <a href="${pageContext.request.contextPath}/template/footers/support.jsp">문의하기</a>
     </div>
 </body>
 </html>
