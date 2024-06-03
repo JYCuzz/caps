@@ -85,18 +85,58 @@ public class UserDao {
         return user;
     }
 
-    public boolean updateUserInfo(String currentEmail, String newEmail, String currentPassword, String newPassword, String newName, String newBirth, String newPnum, String newAddress) {
-        String SQL = "UPDATE USER SET userEmail = ?, userPassword = ?, userName = ?, userBirth = ?, userPnum = ?, userAddress = ? WHERE userEmail = ? AND userPassword = ?";
+    public boolean updateUserInfo(String currentEmail, String currentPassword, String newPassword, String newName, String newBirth, String newPnum, String newAddress) {
+        String SQL = "UPDATE USER SET ";
+        boolean firstField = true;
+        
+        if (newPassword != null && !newPassword.isEmpty()) {
+            SQL += "userPassword = ?";
+            firstField = false;
+        }
+        if (newName != null && !newName.isEmpty()) {
+            if (!firstField) SQL += ", ";
+            SQL += "userName = ?";
+            firstField = false;
+        }
+        if (newBirth != null && !newBirth.isEmpty()) {
+            if (!firstField) SQL += ", ";
+            SQL += "userBirth = ?";
+            firstField = false;
+        }
+        if (newPnum != null && !newPnum.isEmpty()) {
+            if (!firstField) SQL += ", ";
+            SQL += "userPnum = ?";
+            firstField = false;
+        }
+        if (newAddress != null && !newAddress.isEmpty()) {
+            if (!firstField) SQL += ", ";
+            SQL += "userAddress = ?";
+        }
+        
+        SQL += " WHERE userEmail = ? AND userPassword = ?";
+
         try {
             pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1, newEmail != null && !newEmail.isEmpty() ? newEmail : currentEmail);
-            pstmt.setString(2, newPassword != null && !newPassword.isEmpty() ? newPassword : currentPassword);
-            pstmt.setString(3, newName != null && !newName.isEmpty() ? newName : getUserByEmail(currentEmail).getUserName());
-            pstmt.setString(4, newBirth != null && !newBirth.isEmpty() ? newBirth : getUserByEmail(currentEmail).getUserBirth());
-            pstmt.setString(5, newPnum != null && !newPnum.isEmpty() ? newPnum : getUserByEmail(currentEmail).getUserPnum());
-            pstmt.setString(6, newAddress != null && !newAddress.isEmpty() ? newAddress : getUserByEmail(currentEmail).getUserAddress());
-            pstmt.setString(7, currentEmail);
-            pstmt.setString(8, currentPassword);
+            int index = 1;
+
+            if (newPassword != null && !newPassword.isEmpty()) {
+                pstmt.setString(index++, newPassword);
+            }
+            if (newName != null && !newName.isEmpty()) {
+                pstmt.setString(index++, newName);
+            }
+            if (newBirth != null && !newBirth.isEmpty()) {
+                pstmt.setString(index++, newBirth);
+            }
+            if (newPnum != null && !newPnum.isEmpty()) {
+                pstmt.setString(index++, newPnum);
+            }
+            if (newAddress != null && !newAddress.isEmpty()) {
+                pstmt.setString(index++, newAddress);
+            }
+            
+            pstmt.setString(index++, currentEmail);
+            pstmt.setString(index, currentPassword);
 
             int result = pstmt.executeUpdate();
             return result > 0;

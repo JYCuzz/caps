@@ -6,7 +6,7 @@
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
 
-    // 로그인된 사용자 정보 가져오기
+ 	// 로그인된 사용자 정보 가져오기
     String userEmail = (String) session.getAttribute("userEmail");
     UserDao userDao = new UserDao();
     User user = userDao.getUserByEmail(userEmail);
@@ -19,8 +19,8 @@
     String newPnum = request.getParameter("newPnum");
     String newAddress = request.getParameter("newAddress");
 
-    if (currentPassword != null) {
-        boolean updateSuccess = userDao.updateUserInfo(userEmail, userEmail, currentPassword, newPassword, newName, newBirth, newPnum, newAddress);
+    if (currentPassword != null && !currentPassword.isEmpty()) {
+        boolean updateSuccess = userDao.updateUserInfo(userEmail, currentPassword, newPassword, newName, newBirth, newPnum, newAddress);
 
         if (updateSuccess) {
             out.println("<script>alert('정상적으로 수정되었습니다.'); location.href='myinfo.jsp';</script>");
