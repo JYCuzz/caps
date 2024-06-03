@@ -23,6 +23,16 @@
             text-decoration: underline;
         }
     </style>
+    <script>
+        function redirectToInquiry() {
+            var isLoggedIn = <%= (session.getAttribute("userEmail") != null) ? "true" : "false" %>;
+            if (isLoggedIn) {
+                window.location.href = '${pageContext.request.contextPath}/template/mypages/myinquiry.jsp';
+            } else {
+                window.location.href = '${pageContext.request.contextPath}/template/login.jsp';
+            }
+        }
+    </script>
 </head>
 <body>
     <jsp:include page="/WEB-INF/header.jsp" />
@@ -44,7 +54,7 @@
 
     <div class="main-content">
         <div class="left">
-            <table>
+            <table class="common-table">
                 <thead>
                     <tr>
                         <th>대여 UP! 리스트</th>
@@ -72,7 +82,7 @@
             </table>
         </div>
         <div class="right">
-            <table>
+            <table class="common-table">
                 <thead>
                     <tr>
                         <th colspan="2">공지사항 
@@ -101,6 +111,13 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="footer">
+        <a href="${pageContext.request.contextPath}/template/noticeboard.jsp">공지사항</a> |
+        <a href="${pageContext.request.contextPath}/template/footers/terms.jsp">이용약관</a> |
+        <a href="${pageContext.request.contextPath}/template/footers/privacy.jsp">개인정보 취급방침</a> |
+        <a href="javascript:void(0);" onclick="redirectToInquiry()">문의하기</a>
     </div>
 </body>
 </html>

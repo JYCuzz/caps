@@ -95,6 +95,18 @@ body {
 .btn:hover {
     background-color: #333;
 }
+
+.more-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    text-align: right;
+    float: right;
+}
+
 .link {
     margin-top: 10px;
     font-size: 14px;
