@@ -91,7 +91,7 @@
                             }
                     %>
                     <tr>
-                        <td><%= notice.getTitle() %></td>
+                        <td><a href="notice_detail.jsp?title=<%= java.net.URLEncoder.encode(notice.getTitle(), "UTF-8") %>"><%= notice.getTitle() %></a></td>
                         <td><%= notice.getDate() %></td>
                     </tr>
                     <%
