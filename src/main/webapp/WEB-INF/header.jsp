@@ -23,5 +23,5 @@
     <a href="${pageContext.request.contextPath}/template/noticeboard.jsp">공지사항</a> |
     <a href="${pageContext.request.contextPath}/template/footers/terms.jsp">이용약관</a> |
     <a href="${pageContext.request.contextPath}/template/footers/privacy.jsp">개인정보 취급방침</a> |
-    <a href="${pageContext.request.contextPath}/template/footers/support.jsp">문의하기</a>
+    <a href="${pageContext.request.contextPath}/template/mypages/myinquiry.jsp">문의하기</a>
 </div>

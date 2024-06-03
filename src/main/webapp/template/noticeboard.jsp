@@ -36,11 +36,11 @@
         <%
             String userEmail = (String) session.getAttribute("userEmail");
             if (userEmail != null && userEmail.startsWith("admin")) {
-        %>
-        <div class="noticeboard-container" style="text-align: right; margin-bottom: 10px;">
-            <button type="button" class="noticeboard-btn noticeboard-btn-dark" onclick="location.href='notice_write.jsp'">작성</button>
-        </div>
-        <%
+		        %>
+		        <div class="noticeboard-container" style="text-align: right; margin-bottom: 10px;">
+		            <button type="button" class="noticeboard-btn noticeboard-btn-dark" onclick="location.href='notice_write.jsp'">작성</button>
+		        </div>
+		        <%
             }
         %>
 

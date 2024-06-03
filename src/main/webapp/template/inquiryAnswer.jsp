@@ -1,12 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, notice.*" %>
+<%@ page import="inquiry.InquiryDao" %>
+<%
+    String adminEmail = (String) session.getAttribute("userEmail");
+    if (adminEmail == null || !adminEmail.contains("admin")) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
+    String userEmail = request.getParameter("userEmail");
+    String title = request.getParameter("title");
+    String responseContent = request.getParameter("response");
+
+    if (responseContent != null) {
+        InquiryDao inquiryDao = new InquiryDao();
+        boolean success = inquiryDao.updateInquiryResponse(userEmail, title, responseContent);
+
+        if (success) {
+            out.println("<script>alert('답변이 성공적으로 등록되었습니다.'); location.href='mypages/myinquiry.jsp';</script>");
+        } else {
+            out.println("<script>alert('답변 등록에 실패했습니다. 다시 시도해주세요.'); history.back();</script>");
+        }
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항 작성</title>
+    <title>답변하기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
     <style>
         .form-container {
@@ -65,30 +87,16 @@
     <jsp:include page="/WEB-INF/header.jsp" />
 
     <div class="form-container">
-        <h2>공지사항 작성</h2>
-        <form method="post" action="notice_write.jsp">
+        <h2>답변하기</h2>
+        <form action="inquiryAnswer.jsp" method="post">
+            <input type="hidden" name="userEmail" value="<%= request.getParameter("userEmail") %>">
+            <input type="hidden" name="title" value="<%= request.getParameter("title") %>">
             <div class="input-group">
-                <label for="title">제목:</label>
-                <input type="text" id="title" name="title" required>
+                <label for="response">답변:</label>
+                <textarea id="response" name="response" required></textarea>
             </div>
-            <div class="input-group">
-                <label for="content">내용:</label>
-                <textarea id="content" name="content" required></textarea>
-            </div>
-            <button type="submit" class="btn">작성 완료</button>
+            <button type="submit" class="btn">답변 완료</button>
         </form>
     </div>
-    <%
-        request.setCharacterEncoding("UTF-8");
-        String title = request.getParameter("title");
-        String content = request.getParameter("content");
-        String userEmail = (String) session.getAttribute("userEmail");
-
-        if (title != null && content != null && userEmail != null) {
-            NoticeDao noticeDao = new NoticeDao();
-            noticeDao.addNotice(title, content, userEmail);
-            response.sendRedirect(request.getContextPath() + "/template/noticeboard.jsp");
-        }
-    %>
 </body>
 </html>

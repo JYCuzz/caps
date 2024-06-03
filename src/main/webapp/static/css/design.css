@@ -94,6 +94,7 @@ body {
 }
 .btn:hover {
     background-color: #333;
+    text-decoration: underline;
 }
 
 .more-btn {
@@ -107,6 +108,10 @@ body {
     float: right;
 }
 
+.more-btn:hover {
+    text-decoration: underline;
+}
+        
 .link {
     margin-top: 10px;
     font-size: 14px;
@@ -469,10 +474,13 @@ a:hover {
     width: 100%;
     border-collapse: collapse;
     background-color: #d3d3d3;
+    text-align: center; /* 테이블 내용 가운데 정렬 */
 }
-.inquiry-table td {
+
+.inquiry-table th, .inquiry-table td {
     padding: 15px;
     border: 1px solid #ccc;
+    vertical-align: middle; /* 수직 가운데 정렬 */
 }
 
 /**************************************************************************************************
@@ -1059,4 +1067,22 @@ section.noticeboard {
     color: #333333;
     line-height: 1.6;
 }
+
+.inquiry-write-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    float: right;
+    margin-top: -40px; /* Adjust this value as needed */
+}
+
+.inquiry-write-btn:hover {
+    background-color: #333;
+}
+
 

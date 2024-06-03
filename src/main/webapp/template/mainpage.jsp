@@ -8,21 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>발로렌트</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
-    <style>
-        .more-btn {
-            background: none;
-            border: none;
-            color: inherit;
-            font: inherit;
-            cursor: pointer;
-            outline: inherit;
-            text-align: right;
-            float: right;
-        }
-        .more-btn:hover {
-            text-decoration: underline;
-        }
-    </style>
     <script>
         function redirectToInquiry() {
             var isLoggedIn = <%= (session.getAttribute("userEmail") != null) ? "true" : "false" %>;
