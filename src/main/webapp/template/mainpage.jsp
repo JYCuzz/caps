@@ -8,6 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>발로렌트</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
+    <style>
+        .more-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+            text-align: right;
+            float: right;
+        }
+        .more-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <jsp:include page="/WEB-INF/header.jsp" />
@@ -60,10 +75,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">
-                            <button onclick="location.href='${pageContext.request.contextPath}/template/noticeboard.jsp'" style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; outline:inherit;">
-                                공지사항
-                            </button>
+                        <th colspan="2">공지사항 
+                            <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/template/noticeboard.jsp'">더보기</button>
                         </th>
                     </tr>
                 </thead>

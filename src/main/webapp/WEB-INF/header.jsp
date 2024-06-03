@@ -10,11 +10,11 @@
     <div class="logo"><a href="${pageContext.request.contextPath}/template/mainpage.jsp">발로렌트</a></div>
     <div class="nav">
         <% if (userEmail == null) { %>
-            <div><a href="${pageContext.request.contextPath}/template/signup.jsp">회원가입</a></div>
-            <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button>로그인</button></a></div>
+            <div><a href="${pageContext.request.contextPath}/template/signup.jsp"><button class="header-btn">회원가입</button></a></div>
+            <div><a href="${pageContext.request.contextPath}/template/login.jsp"><button class="header-btn">로그인</button></a></div>
         <% } else { %>
-            <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button>마이페이지</button></a></div>
-            <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button>로그아웃</button></a></div>
+            <div><a href="${pageContext.request.contextPath}/template/mypages/myinfo.jsp"><button class="header-btn">마이페이지</button></a></div>
+            <div><a href="${pageContext.request.contextPath}/action/logoutAction.jsp"><button class="header-btn">로그아웃</button></a></div>
         <% } %>
     </div>
 </div>

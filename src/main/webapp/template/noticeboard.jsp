@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, notice.*" %>
+<%@ page import="java.util.List, notice.*" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>발로렌트</title>
+    <title>공지사항</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
 </head>
 <body>
@@ -75,7 +74,7 @@
                         <tr>
                             <td><%= number++ %></td>
                             <td><%= shortEmail %></td>
-                            <td><a href="#"><%= notice.getTitle() %></a></td>
+                            <td><a href="notice_detail.jsp?title=<%= java.net.URLEncoder.encode(notice.getTitle(), "UTF-8") %>"><%= notice.getTitle() %></a></td>
                             <td><%= notice.getDate() %></td>
                         </tr>
                         <%

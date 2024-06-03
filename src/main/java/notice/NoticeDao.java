@@ -96,4 +96,26 @@ public class NoticeDao {
             e.printStackTrace();
         }
     }
+    
+    public Notice getNoticeByTitle(String title) {
+        Notice notice = null;
+        String SQL = "SELECT * FROM notice WHERE title = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, title);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                notice = new Notice();
+                notice.setUserEmail(rs.getString("userEmail"));
+                notice.setTitle(rs.getString("title"));
+                notice.setContent(rs.getString("content"));
+                notice.setDate(rs.getString("date"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return notice;
+    }
+    
+    
 }
