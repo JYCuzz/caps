@@ -10,10 +10,39 @@ public class Items_laptop {
 	private String lapBrand;
 	private String lapModel;
 	private String lapColor;
+	private String lapGraphic;
+	private String lapOS;
+	private String lapCPU;
 	private String lapMemory;
-	private int lapAvailable;
-	private String userEmail;
+	private int lapAvailable; // 존재하면 1, 만약 삭제하거나 없어질 경우 0
+	private String userEmail; // 유저테이블에서 참조한 외래키
+	private String userName;
 	
+	public String getLapGraphic() {
+		return lapGraphic;
+	}
+	public void setLapGraphic(String lapGraphic) {
+		this.lapGraphic = lapGraphic;
+	}
+	public String getLapOS() {
+		return lapOS;
+	}
+	public void setLapOS(String lapOS) {
+		this.lapOS = lapOS;
+	}
+	public String getLapCPU() {
+		return lapCPU;
+	}
+	public void setLapCPU(String lapCPU) {
+		this.lapCPU = lapCPU;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public int getLapID() {
 		return lapID;
 	}

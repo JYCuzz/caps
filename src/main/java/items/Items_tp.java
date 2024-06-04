@@ -11,9 +11,16 @@ public class Items_tp {
 	private String tpModel;
 	private String tpColor;
 	private String tpMemory;
-	private int tpAvailable;
-	private String userEmail;
+	private int tpAvailable; // 아이템이 존재하면 1, 만약 삭제하거나 없어질 경우 0
+	private String userEmail; // 유저테이블에서 참조한 외래키
+	private String userName;
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public int getTpID() {
 		return tpID;
 	}
