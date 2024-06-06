@@ -114,7 +114,7 @@ public class UserDao {
         }
         
         SQL += " WHERE userEmail = ? AND userPassword = ?";
-
+        
         try {
             pstmt = conn.prepareStatement(SQL);
             int index = 1;
@@ -139,11 +139,35 @@ public class UserDao {
             pstmt.setString(index, currentPassword);
 
             int result = pstmt.executeUpdate();
+            
+            if (result > 0 && newName != null && !newName.isEmpty()) {
+                updateItemsUserName(currentEmail, newName);
+            }
+            
             return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
+    private void updateItemsUserName(String userEmail, String newUserName) {
+        String SQL1 = "UPDATE Items_laptop SET userName = ? WHERE userEmail = ?";
+        String SQL2 = "UPDATE Items_tp SET userName = ? WHERE userEmail = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL1);
+            pstmt.setString(1, newUserName);
+            pstmt.setString(2, userEmail);
+            pstmt.executeUpdate();
+
+            pstmt = conn.prepareStatement(SQL2);
+            pstmt.setString(1, newUserName);
+            pstmt.setString(2, userEmail);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     
 }

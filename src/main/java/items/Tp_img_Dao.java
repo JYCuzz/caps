@@ -78,19 +78,4 @@ public class Tp_img_Dao {
         return null;
     }
     
-    public boolean updateUserName(String userEmail, String newName) {
-        String SQL = "UPDATE Items_tp SET userName = ? WHERE userEmail = ?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1, newName);
-            pstmt.setString(2, userEmail);
-            int result = pstmt.executeUpdate();
-            System.out.println("Update Items_tp result: " + result);
-            return result > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 }
