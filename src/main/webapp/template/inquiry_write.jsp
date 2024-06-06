@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="inquiry.InquiryDao" %>
 <%@ page import="java.text.SimpleDateFormat" %>
@@ -9,7 +8,8 @@
         response.sendRedirect("login.jsp");
         return;
     }
-
+	
+    request.setCharacterEncoding("UTF-8");
     String title = request.getParameter("title");
     String content = request.getParameter("content");
     String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());

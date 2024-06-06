@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="inquiry.InquiryDao" %>
 <%
     String adminEmail = (String) session.getAttribute("userEmail");
@@ -7,7 +6,8 @@
         response.sendRedirect("login.jsp");
         return;
     }
-
+	
+    request.setCharacterEncoding("UTF-8");
     String userEmail = request.getParameter("userEmail");
     String title = request.getParameter("title");
     String responseContent = request.getParameter("response");

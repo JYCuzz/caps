@@ -85,8 +85,6 @@
         </div>
         <div class="item-product-details">
             <div class="item-search">
-                <input type="text" placeholder="제품 검색">
-                <button>🔍</button>
             </div>
             <h1><%= type.equals("laptop") ? ((Items_laptop) item).getLapName() : ((Items_tp) item).getTpName() %></h1>
             <p>수량: <%= type.equals("laptop") ? ((Items_laptop) item).getLapQuan() : ((Items_tp) item).getTpQuan() %>개<br>판매자: <%= type.equals("laptop") ? ((Items_laptop) item).getUserName() : ((Items_tp) item).getUserName() %></p>
