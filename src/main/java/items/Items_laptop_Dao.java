@@ -209,21 +209,33 @@ public class Items_laptop_Dao {
     public List<Items_laptop> getRecentItems(int limit) {
         List<Items_laptop> list = new ArrayList<>();
         String SQL = "SELECT * FROM Items_laptop ORDER BY lapID DESC LIMIT ?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setInt(1, limit);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Items_laptop item = new Items_laptop();
-                item.setLapID(rs.getInt("lapID"));
-                item.setLapName(rs.getString("lapName"));
-                item.setLapPrice(rs.getInt("lapPrice"));
-                item.setUserName(rs.getString("userName"));
-                list.add(item);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Items_laptop item = new Items_laptop();
+                    item.setLapID(rs.getInt("lapID"));
+                    item.setLapName(rs.getString("lapName"));
+                    item.setLapQuan(rs.getInt("lapQuan"));
+                    item.setLapYear(rs.getInt("lapYear"));
+                    item.setLapPrice(rs.getInt("lapPrice"));
+                    item.setLapBrand(rs.getString("lapBrand"));
+                    item.setLapModel(rs.getString("lapModel"));
+                    item.setLapColor(rs.getString("lapColor"));
+                    item.setLapGraphic(rs.getString("lapGraphic"));
+                    item.setLapOS(rs.getString("lapOS"));
+                    item.setLapCPU(rs.getString("lapCPU"));
+                    item.setLapMemory(rs.getString("lapMemory"));
+                    item.setLapAvailable(rs.getInt("lapAvailable"));
+                    item.setUserEmail(rs.getString("userEmail"));
+                    item.setUserName(rs.getString("userName"));
+                    list.add(item);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
+
 }

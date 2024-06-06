@@ -243,21 +243,30 @@ public class Items_tp_Dao {
     public List<Items_tp> getRecentItems(int limit) {
         List<Items_tp> list = new ArrayList<>();
         String SQL = "SELECT * FROM Items_tp ORDER BY tpID DESC LIMIT ?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setInt(1, limit);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Items_tp item = new Items_tp();
-                item.setTpID(rs.getInt("tpID"));
-                item.setTpName(rs.getString("tpName"));
-                item.setTpPrice(rs.getInt("tpPrice"));
-                item.setUserName(rs.getString("userName"));
-                list.add(item);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Items_tp item = new Items_tp();
+                    item.setTpID(rs.getInt("tpID"));
+                    item.setTpName(rs.getString("tpName"));
+                    item.setTpQuan(rs.getInt("tpQuan"));
+                    item.setTpYear(rs.getInt("tpYear"));
+                    item.setTpPrice(rs.getInt("tpPrice"));
+                    item.setTpBrand(rs.getString("tpBrand"));
+                    item.setTpModel(rs.getString("tpModel"));
+                    item.setTpColor(rs.getString("tpColor"));
+                    item.setTpMemory(rs.getString("tpMemory"));
+                    item.setTpAvailable(rs.getInt("tpAvailable"));
+                    item.setUserEmail(rs.getString("userEmail"));
+                    item.setUserName(rs.getString("userName"));
+                    list.add(item);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
+
 }
