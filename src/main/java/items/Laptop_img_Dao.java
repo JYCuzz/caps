@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 
 public class Laptop_img_Dao {
     private Connection conn;
+    private ResultSet rs;
 
     public Laptop_img_Dao() {
         try {
@@ -57,5 +58,38 @@ public class Laptop_img_Dao {
             try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
         }
         return -1;
+    }
+    
+    public Laptop_img getImageByLapID(int lapID) {
+        String SQL = "SELECT * FROM Laptop_img WHERE lapID = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, lapID);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Laptop_img img = new Laptop_img();
+                img.setLap_img_Name(rs.getString("lap_img_Name"));
+                img.setLap_img_path(rs.getString("lap_img_Path"));
+                return img;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public boolean updateUserName(String userEmail, String newName) {
+        String SQL = "UPDATE Items_laptop SET userName = ? WHERE userEmail = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, newName);
+            pstmt.setString(2, userEmail);
+            int result = pstmt.executeUpdate();
+            System.out.println("Update Items_laptop result: " + result);
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

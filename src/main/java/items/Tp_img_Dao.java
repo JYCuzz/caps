@@ -7,7 +7,8 @@ import java.sql.ResultSet;
 
 public class Tp_img_Dao {
     private Connection conn;
-
+    private ResultSet rs;
+    
     public Tp_img_Dao() {
         try {
             String dbURL = "jdbc:mysql://localhost:3306/caps";
@@ -58,4 +59,38 @@ public class Tp_img_Dao {
         }
         return -1;
     }
+    
+    public Tp_img getImageByTpID(int tpID) {
+        String SQL = "SELECT * FROM Tp_img WHERE tpID = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, tpID);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Tp_img img = new Tp_img();
+                img.setTp_img_Name(rs.getString("tp_img_Name"));
+                img.setTp_img_path(rs.getString("tp_img_Path"));
+                return img;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public boolean updateUserName(String userEmail, String newName) {
+        String SQL = "UPDATE Items_tp SET userName = ? WHERE userEmail = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, newName);
+            pstmt.setString(2, userEmail);
+            int result = pstmt.executeUpdate();
+            System.out.println("Update Items_tp result: " + result);
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

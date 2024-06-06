@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Items_laptop_Dao {
     private Connection conn;
@@ -19,6 +21,13 @@ public class Items_laptop_Dao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Connection getConnection() throws Exception {
+        String dbURL = "jdbc:mysql://localhost:3306/caps";
+        String dbID = "root";
+        String dbPassword = "0000";
+        return DriverManager.getConnection(dbURL, dbID, dbPassword);
     }
 
     public int getNext() {
@@ -78,5 +87,56 @@ public class Items_laptop_Dao {
         }
         return -1;
     }
-
+    
+    public List<Items_laptop> getItemsByUserEmail(String userEmail) {
+        List<Items_laptop> list = new ArrayList<>();
+        String SQL = "SELECT * FROM Items_laptop WHERE userEmail = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, userEmail);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Items_laptop item = new Items_laptop();
+                item.setLapID(rs.getInt("lapID"));
+                item.setLapName(rs.getString("lapName"));
+                // 다른 필드들 설정
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public Items_laptop getItemById(int id) {
+        String SQL = "SELECT * FROM Items_laptop WHERE lapID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Items_laptop item = new Items_laptop();
+                    item.setLapID(rs.getInt("lapID"));
+                    item.setLapName(rs.getString("lapName"));
+                    item.setLapQuan(rs.getInt("lapQuan"));
+                    item.setLapYear(rs.getInt("lapYear"));
+                    item.setLapPrice(rs.getInt("lapPrice"));
+                    item.setLapBrand(rs.getString("lapBrand"));
+                    item.setLapModel(rs.getString("lapModel"));
+                    item.setLapColor(rs.getString("lapColor"));
+                    item.setLapGraphic(rs.getString("lapGraphic"));
+                    item.setLapOS(rs.getString("lapOS"));
+                    item.setLapCPU(rs.getString("lapCPU"));
+                    item.setLapMemory(rs.getString("lapMemory"));
+                    item.setLapAvailable(rs.getInt("lapAvailable"));
+                    item.setUserEmail(rs.getString("userEmail"));
+                    item.setUserName(rs.getString("userName"));
+                    return item;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
