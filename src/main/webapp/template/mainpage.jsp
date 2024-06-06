@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="notice.NoticeDao, notice.Notice" %>
+<%@ page import="user.User" %>
+<%@ page import="user.UserDao" %>
+<%@ page import="items.Items_laptop" %>
+<%@ page import="items.Items_laptop_Dao" %>
+<%@ page import="items.Items_tp" %>
+<%@ page import="items.Items_tp_Dao" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,16 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>발로렌트</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
-    <script>
-        function redirectToInquiry() {
-            var isLoggedIn = <%= (session.getAttribute("userEmail") != null) ? "true" : "false" %>;
-            if (isLoggedIn) {
-                window.location.href = '${pageContext.request.contextPath}/template/mypages/myinquiry.jsp';
-            } else {
-                window.location.href = '${pageContext.request.contextPath}/template/login.jsp';
-            }
-        }
-    </script>
 </head>
 <body>
     <jsp:include page="/WEB-INF/header.jsp" />
@@ -48,21 +44,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <%
+                        Items_laptop_Dao laptopDao = new Items_laptop_Dao();
+                        List<Items_laptop> laptopList = laptopDao.getRecentItems(5);
+                        for (Items_laptop laptop : laptopList) {
+                    %>
                     <tr>
-                        <td>맥북</td>
-                        <td>25,000원</td>
-                        <td>홍길동</td>
+                        <td><a href="${pageContext.request.contextPath}/template/itempage.jsp?type=laptop&id=<%= laptop.getLapID() %>"><%= laptop.getLapName() %></a></td>
+                        <td><%= laptop.getLapPrice() %>원</td>
+                        <td><%= laptop.getUserName() %></td>
                     </tr>
+                    <%
+                        }
+
+                        Items_tp_Dao tpDao = new Items_tp_Dao();
+                        List<Items_tp> tpList = tpDao.getRecentItems(5);
+                        for (Items_tp tp : tpList) {
+                    %>
                     <tr>
-                        <td>갤럭시 오디세이</td>
-                        <td>35,000원</td>
-                        <td>홍길동</td>
+                        <td><a href="item_detail.jsp?id=<%= tp.getTpID() %>"><%= tp.getTpName() %></a></td>
+                        <td><%= tp.getTpPrice() %>원</td>
+                        <td><%= tp.getUserName() %></td>
                     </tr>
-                    <tr>
-                        <td>아이패드 Air 5</td>
-                        <td>22,000원</td>
-                        <td>홍길동</td>
-                    </tr>
+                    <%
+                        }
+                    %>
                 </tbody>
             </table>
         </div>

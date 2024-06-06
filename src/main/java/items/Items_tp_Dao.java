@@ -239,4 +239,25 @@ public class Items_tp_Dao {
         }
         return list;
     }
+    
+    public List<Items_tp> getRecentItems(int limit) {
+        List<Items_tp> list = new ArrayList<>();
+        String SQL = "SELECT * FROM Items_tp ORDER BY tpID DESC LIMIT ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, limit);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Items_tp item = new Items_tp();
+                item.setTpID(rs.getInt("tpID"));
+                item.setTpName(rs.getString("tpName"));
+                item.setTpPrice(rs.getInt("tpPrice"));
+                item.setUserName(rs.getString("userName"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

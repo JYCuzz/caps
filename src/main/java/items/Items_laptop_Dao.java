@@ -205,4 +205,25 @@ public class Items_laptop_Dao {
         item.setUserEmail(rs.getString("userEmail"));
         item.setUserName(rs.getString("userName"));
     }
+    
+    public List<Items_laptop> getRecentItems(int limit) {
+        List<Items_laptop> list = new ArrayList<>();
+        String SQL = "SELECT * FROM Items_laptop ORDER BY lapID DESC LIMIT ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, limit);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Items_laptop item = new Items_laptop();
+                item.setLapID(rs.getInt("lapID"));
+                item.setLapName(rs.getString("lapName"));
+                item.setLapPrice(rs.getInt("lapPrice"));
+                item.setUserName(rs.getString("userName"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
