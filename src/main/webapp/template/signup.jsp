@@ -54,7 +54,7 @@
                     <input type="text" placeholder="주소" name="userAddress">
                 </div>
                 <div class="input-group">
-                    <label for="student-proof" class="input-label">대학생 증명서</label>
+                    <label for="student-proof" class="input-label">대학생 증명(ex: 학생증사진)</label>
                     <input type="file" id="student-proof" placeholder="대학생 증명" name="userStudent">
                 </div>
                 <button type="submit" class="btn btn-primary form-control" id="signup-button">가입하기</button>
