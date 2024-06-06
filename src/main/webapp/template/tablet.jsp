@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.List" %>
+<%@ page import="items.Items_tp_Dao" %>
+<%@ page import="items.Items_tp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,53 +14,63 @@
 <body>
     <jsp:include page="/WEB-INF/header.jsp" />
 
+    <%
+        Items_tp_Dao dao = new Items_tp_Dao();
+        List<String> brands = dao.getUniqueBrands();
+        String selectedBrand = request.getParameter("brand");
+        String searchQuery = request.getParameter("search");
+        List<Items_tp> items;
+
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            items = dao.searchItemsByName(searchQuery);
+        } else if (selectedBrand != null) {
+            items = dao.getItemsByBrand(selectedBrand);
+        } else {
+            items = dao.getAllItems();
+        }
+    %>
+
     <main class="tablet-main-content">
         <div class="tablet-keywords">
-            <h2>인기 브랜드 키워드</h2>
+            <h2>브랜드 키워드</h2>
             <div class="tablet-keyword-box">
-                <span>MAC</span>
-                <span>SAMSUNG</span>
-                <span>LG</span>
-                <span>ASUS</span>
-                <span>LENOVO</span>
-                <span>etc</span>
-                <span>etc</span>
-                <span>etc</span>
+                <a href="?"><span>전체 보기</span></a> <!-- 전체 보기 버튼 추가 -->
+                <%
+                    for (String brand : brands) {
+                        out.print("<a href='?brand=" + brand + "'><span>" + brand + "</span></a>");
+                    }
+                %>
             </div>
             <div class="tablet-search">
-                <input type="text" placeholder="제품 검색">
-                <button>🔍</button>
+                <form action="tablet.jsp" method="get">
+                    <input type="text" name="search" placeholder="제품 검색" value="<%= searchQuery != null ? searchQuery : "" %>">
+                    <button type="submit">🔍</button>
+                </form>
             </div>
         </div>
         <div class="tablet-item-list">
+            <%
+                for (Items_tp item : items) {
+                    String imgPath = dao.getImagePathByTpID(item.getTpID());
+                    if (imgPath == null) {
+                        imgPath = "https://via.placeholder.com/150";
+                    } else {
+                        imgPath = request.getContextPath() + imgPath;
+                    }
+            %>
             <div class="tablet-item">
-                <a href="${pageContext.request.contextPath}/template/itempage.jsp"><img src="https://via.placeholder.com/150" alt="샘숭 오디세이"></a>
-                <p>샘숭 오디세이</p>
-                <p>수량: 1</p>
-                <p>월 렌탈료: 25,000원</p>
-                <p>판매자: 홍길동</p>
+                <a href="${pageContext.request.contextPath}/template/itempage.jsp?type=pad&id=<%= item.getTpID() %>">
+                    <img src="<%= imgPath %>" alt="<%= item.getTpName() %>">
+                </a>
+                <p><%= item.getTpName() %></p>
+                <p>수량: <%= item.getTpQuan() %></p>
+                <p>월 렌탈료: <%= item.getTpPrice() %>원</p>
+                <p>판매자: <%= item.getUserName() %></p>
+                <p>브랜드: <%= item.getTpBrand() %></p>
             </div>
-            <div class="tablet-item">
-                <a href="${pageContext.request.contextPath}/template/itempage.jsp"><img src="https://via.placeholder.com/150" alt="사과책"></a>
-                <p>사과책</p>
-                <p>수량: 1</p>
-                <p>월 렌탈료: 35,000원</p>
-                <p>판매자: 홍길동</p>
-            </div>
-            <div class="tablet-item">
-                <a href="${pageContext.request.contextPath}/template/itempage.jsp"><img src="https://via.placeholder.com/150" alt="아서스 메네실"></a>
-                <p>아서스 메네실</p>
-                <p>수량: 1</p>
-                <p>월 렌탈료: 15,000원</p>
-                <p>판매자: 홍길동</p>
-            </div>
-            <div class="tablet-item">
-                <a href="${pageContext.request.contextPath}/template/itempage.jsp"><img src="https://via.placeholder.com/150" alt="엘지 그램"></a>
-                <p>엘지 그램</p>
-                <p>수량: 1</p>
-                <p>월 렌탈료: 15,000원</p>
-                <p>판매자: 홍길동</p>
-            </div>
+            <%
+                }
+            %>
         </div>
     </main>
 </body>

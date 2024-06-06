@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class Tp_img_Dao {
     private Connection conn;
     private ResultSet rs;
-    
+
     public Tp_img_Dao() {
         try {
             String dbURL = "jdbc:mysql://localhost:3306/caps";
@@ -21,8 +21,13 @@ public class Tp_img_Dao {
         }
     }
 
+    private void closeResources(PreparedStatement pstmt, ResultSet rs) {
+        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+        try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+    }
+
     public int getNext_img() {
-        String SQL = "SELECT tp_img_ID FROM tp_img ORDER BY tp_img_ID DESC";
+        String SQL = "SELECT tp_img_ID FROM Tp_img ORDER BY tp_img_ID DESC";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -35,8 +40,7 @@ public class Tp_img_Dao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
-            try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            closeResources(pstmt, rs);
         }
         return -1;
     }
@@ -55,15 +59,17 @@ public class Tp_img_Dao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+            closeResources(pstmt, null);
         }
         return -1;
     }
-    
+
     public Tp_img getImageByTpID(int tpID) {
         String SQL = "SELECT * FROM Tp_img WHERE tpID = ?";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, tpID);
             rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -74,8 +80,27 @@ public class Tp_img_Dao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
         }
         return null;
     }
-    
+
+    public boolean updateUserName(String userEmail, String newName) {
+        String SQL = "UPDATE Items_tp SET userName = ? WHERE userEmail = ?";
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, newName);
+            pstmt.setString(2, userEmail);
+            int result = pstmt.executeUpdate();
+            System.out.println("Update Items_tp result: " + result);
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, null);
+        }
+        return false;
+    }
 }

@@ -10,7 +10,21 @@
 
 <%
     String type = request.getParameter("type");
-    int id = Integer.parseInt(request.getParameter("id"));
+    String idParam = request.getParameter("id");
+    int id = 0;
+
+    if (idParam != null && !idParam.isEmpty()) {
+        try {
+            id = Integer.parseInt(idParam);
+        } catch (NumberFormatException e) {
+            // 유효하지 않은 숫자 형식일 경우 처리할 코드
+            out.println("유효하지 않은 id 형식입니다.");
+        }
+    } else {
+        // id 파라미터가 없을 경우 처리할 코드
+        out.println("id 파라미터가 없습니다.");
+    }
+
     Object item = null;
     String imagePath = null;
 
@@ -52,13 +66,13 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/header.jsp" />
-    
+
     <main class="item-main-content">
         <div class="item-sidebar">
             <div class="item-category">
                 <p>희망하는 가격대를 입력하세요. 알림으로 소식을 전해 드립니다.</p>
                 <div class="item-icon">
-                    <img src="https://via.placeholder.com/30" alt="알림 아이콘">
+                    <img src="${pageContext.request.contextPath}/static/img/alarm.jpg" alt="알림 아이콘">
                 </div>
             </div>
             <div class="item-product-image">

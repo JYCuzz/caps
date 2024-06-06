@@ -749,16 +749,19 @@ section.noticeboard {
 ***************************************************************************************************
 ***************************************************************************************************/
 
-/* laptop창 (laptop.html) */
+/* laptop.jsp 관련 CSS */
 .laptop-main-content {
     padding: 20px;
 }
+
 .laptop-keywords {
     margin-bottom: 20px;
 }
+
 .laptop-keywords h2 {
     text-align: center;
 }
+
 .laptop-keyword-box {
     display: flex;
     justify-content: center;
@@ -766,24 +769,29 @@ section.noticeboard {
     padding: 10px;
     border-radius: 10px;
 }
+
 .laptop-keyword-box span {
     margin: 0 10px;
     font-size: 18px;
 }
+
 .laptop-search {
     display: flex;
     justify-content: flex-end;
     margin: 20px 0;
 }
+
 .laptop-search input {
     padding: 5px;
     margin-right: 5px;
 }
+
 .laptop-item-list {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
 .laptop-item {
     background-color: #ececec;
     padding: 10px;
@@ -792,11 +800,18 @@ section.noticeboard {
     margin-bottom: 20px;
     width: 200px;
 }
+
 .laptop-item img {
     width: 150px;
     height: 150px;
     border-radius: 10px;
+    object-fit: cover; /* 이미지를 요소 크기에 맞게 조절 */
 }
+
+.laptop-item p {
+    margin: 10px 0;
+}
+
 
 /**************************************************************************************************
 ***************************************************************************************************

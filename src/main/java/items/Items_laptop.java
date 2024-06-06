@@ -109,6 +109,4 @@ public class Items_laptop {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
-	
-
 }

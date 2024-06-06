@@ -23,18 +23,15 @@ public class Items_tp_Dao {
         }
     }
 
-    private Connection getConnection() throws Exception {
-        String dbURL = "jdbc:mysql://localhost:3306/caps";
-        String dbID = "root";
-        String dbPassword = "0000";
-        return DriverManager.getConnection(dbURL, dbID, dbPassword);
+    private void closeResources(PreparedStatement pstmt, ResultSet rs) {
+        try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+        try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
     }
 
     public int getNext() {
         String SQL = "SELECT tpID FROM Items_tp ORDER BY tpID DESC";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            rs = pstmt.executeQuery();
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL);
+             ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1) + 1;
             }
@@ -47,8 +44,7 @@ public class Items_tp_Dao {
 
     public int write(String tpName, int tpQuan, int tpYear, int tpPrice, String tpBrand, String tpModel, String tpColor, String tpMemory, String userName, String userEmail) {
         String SQL = "INSERT INTO Items_tp VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setInt(1, getNext());
             pstmt.setString(2, tpName);
             pstmt.setInt(3, tpQuan);
@@ -58,24 +54,21 @@ public class Items_tp_Dao {
             pstmt.setString(7, tpModel);
             pstmt.setString(8, tpColor);
             pstmt.setString(9, tpMemory);
-            pstmt.setInt(10, 1);
+            pstmt.setInt(10, 1); // tpAvailable
             pstmt.setString(11, userEmail);
             pstmt.setString(12, userName);
 
-            int result = pstmt.executeUpdate();
-            return result;
+            return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
     }
-    
-    // 마지막으로 삽입된 tpID를 가져오는 메서드
+
     public int getLastInsertedID() {
         String SQL = "SELECT tpID FROM Items_tp ORDER BY tpID DESC LIMIT 1";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            rs = pstmt.executeQuery();
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL);
+             ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -84,40 +77,39 @@ public class Items_tp_Dao {
         }
         return -1;
     }
-    
+
     public List<Items_tp> getItemsByUserEmail(String userEmail) {
         List<Items_tp> list = new ArrayList<>();
         String SQL = "SELECT * FROM Items_tp WHERE userEmail = ?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setString(1, userEmail);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Items_tp item = new Items_tp();
-                item.setTpID(rs.getInt("tpID"));
-                item.setTpName(rs.getString("tpName"));
-                item.setTpQuan(rs.getInt("tpQuan"));
-                item.setTpYear(rs.getInt("tpYear"));
-                item.setTpPrice(rs.getInt("tpPrice"));
-                item.setTpBrand(rs.getString("tpBrand"));
-                item.setTpModel(rs.getString("tpModel"));
-                item.setTpColor(rs.getString("tpColor"));
-                item.setTpMemory(rs.getString("tpMemory"));
-                item.setTpAvailable(rs.getInt("tpAvailable"));
-                item.setUserEmail(rs.getString("userEmail"));
-                item.setUserName(rs.getString("userName"));
-                list.add(item);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Items_tp item = new Items_tp();
+                    item.setTpID(rs.getInt("tpID"));
+                    item.setTpName(rs.getString("tpName"));
+                    item.setTpQuan(rs.getInt("tpQuan"));
+                    item.setTpYear(rs.getInt("tpYear"));
+                    item.setTpPrice(rs.getInt("tpPrice"));
+                    item.setTpBrand(rs.getString("tpBrand"));
+                    item.setTpModel(rs.getString("tpModel"));
+                    item.setTpColor(rs.getString("tpColor"));
+                    item.setTpMemory(rs.getString("tpMemory"));
+                    item.setTpAvailable(rs.getInt("tpAvailable"));
+                    item.setUserEmail(rs.getString("userEmail"));
+                    item.setUserName(rs.getString("userName"));
+                    list.add(item);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
-    
+
     public Items_tp getItemById(int id) {
         String SQL = "SELECT * FROM Items_tp WHERE tpID = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -141,5 +133,110 @@ public class Items_tp_Dao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<String> getUniqueBrands() {
+        List<String> brands = new ArrayList<>();
+        String SQL = "SELECT DISTINCT tpBrand FROM Items_tp";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                brands.add(rs.getString("tpBrand"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return brands;
+    }
+
+    public List<Items_tp> getAllItems() {
+        List<Items_tp> list = new ArrayList<>();
+        String SQL = "SELECT * FROM Items_tp";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Items_tp item = new Items_tp();
+                item.setTpID(rs.getInt("tpID"));
+                item.setTpName(rs.getString("tpName"));
+                item.setTpQuan(rs.getInt("tpQuan"));
+                item.setTpYear(rs.getInt("tpYear"));
+                item.setTpPrice(rs.getInt("tpPrice"));
+                item.setTpBrand(rs.getString("tpBrand"));
+                item.setTpModel(rs.getString("tpModel"));
+                item.setTpColor(rs.getString("tpColor"));
+                item.setTpMemory(rs.getString("tpMemory"));
+                item.setTpAvailable(rs.getInt("tpAvailable"));
+                item.setUserEmail(rs.getString("userEmail"));
+                item.setUserName(rs.getString("userName"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public String getImagePathByTpID(int tpID) {
+        Tp_img_Dao imgDao = new Tp_img_Dao();
+        Tp_img img = imgDao.getImageByTpID(tpID);
+        return img != null ? "/uploads_tp/" + img.getTp_img_Name() : null;
+    }
+
+    public List<Items_tp> getItemsByBrand(String brand) {
+        List<Items_tp> list = new ArrayList<>();
+        String SQL = "SELECT * FROM Items_tp WHERE tpBrand = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, brand);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Items_tp item = new Items_tp();
+                    item.setTpID(rs.getInt("tpID"));
+                    item.setTpName(rs.getString("tpName"));
+                    item.setTpQuan(rs.getInt("tpQuan"));
+                    item.setTpYear(rs.getInt("tpYear"));
+                    item.setTpPrice(rs.getInt("tpPrice"));
+                    item.setTpBrand(rs.getString("tpBrand"));
+                    item.setTpModel(rs.getString("tpModel"));
+                    item.setTpColor(rs.getString("tpColor"));
+                    item.setTpMemory(rs.getString("tpMemory"));
+                    item.setTpAvailable(rs.getInt("tpAvailable"));
+                    item.setUserEmail(rs.getString("userEmail"));
+                    item.setUserName(rs.getString("userName"));
+                    list.add(item);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Items_tp> searchItemsByName(String searchQuery) {
+        List<Items_tp> list = new ArrayList<>();
+        String SQL = "SELECT * FROM Items_tp WHERE tpName LIKE ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, "%" + searchQuery + "%");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Items_tp item = new Items_tp();
+                    item.setTpID(rs.getInt("tpID"));
+                    item.setTpName(rs.getString("tpName"));
+                    item.setTpQuan(rs.getInt("tpQuan"));
+                    item.setTpYear(rs.getInt("tpYear"));
+                    item.setTpPrice(rs.getInt("tpPrice"));
+                    item.setTpBrand(rs.getString("tpBrand"));
+                    item.setTpModel(rs.getString("tpModel"));
+                    item.setTpColor(rs.getString("tpColor"));
+                    item.setTpMemory(rs.getString("tpMemory"));
+                    item.setTpAvailable(rs.getInt("tpAvailable"));
+                    item.setUserEmail(rs.getString("userEmail"));
+                    item.setUserName(rs.getString("userName"));
+                    list.add(item);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
