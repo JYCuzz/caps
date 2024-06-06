@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="items.Items_Dao" %>
-<%@ page import="items.Items_Dao.Item" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="items.Items_laptop_Dao" %>
+<%@ page import="items.Items_tp_Dao" %>
+<%@ page import="items.Items_laptop" %>
+<%@ page import="items.Items_tp" %>
 <%@ page import="notice.NoticeDao, notice.Notice" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -42,15 +45,47 @@
                 </thead>
                 <tbody>
                     <%
-                        Items_Dao dao = new Items_Dao();
-                        List<Item> recentItems = dao.getRecentItems(5);
-                        for (Item item : recentItems) {
-                            String url = request.getContextPath() + "/template/itempage.jsp?type=" + item.getType() + "&id=" + item.getId();
+                        Items_laptop_Dao laptopDao = new Items_laptop_Dao();
+                        Items_tp_Dao tpDao = new Items_tp_Dao();
+                        List<Items_laptop> laptopList = laptopDao.getRecentItems(5);
+                        List<Items_tp> tpList = tpDao.getRecentItems(5);
+
+                        List<Object> combinedList = new ArrayList<>();
+                        combinedList.addAll(laptopList);
+                        combinedList.addAll(tpList);
+                        combinedList.sort((o1, o2) -> {
+                            if (o1 instanceof Items_laptop && o2 instanceof Items_laptop) {
+                                return ((Items_laptop) o2).getLapID() - ((Items_laptop) o1).getLapID();
+                            } else if (o1 instanceof Items_tp && o2 instanceof Items_tp) {
+                                return ((Items_tp) o2).getTpID() - ((Items_tp) o1).getTpID();
+                            } else if (o1 instanceof Items_laptop && o2 instanceof Items_tp) {
+                                return ((Items_tp) o2).getTpID() - ((Items_laptop) o1).getLapID();
+                            } else {
+                                return ((Items_laptop) o2).getLapID() - ((Items_tp) o1).getTpID();
+                            }
+                        });
+
+                        for (int i = 0; i < 5 && i < combinedList.size(); i++) {
+                            Object item = combinedList.get(i);
+                            String name = "", url = "", price = "", seller = "";
+                            if (item instanceof Items_laptop) {
+                                Items_laptop laptop = (Items_laptop) item;
+                                name = laptop.getLapName();
+                                url = request.getContextPath() + "/template/itempage.jsp?type=laptop&id=" + laptop.getLapID();
+                                price = laptop.getLapPrice() + "원";
+                                seller = laptop.getUserName();
+                            } else if (item instanceof Items_tp) {
+                                Items_tp tp = (Items_tp) item;
+                                name = tp.getTpName();
+                                url = request.getContextPath() + "/template/itempage.jsp?type=pad&id=" + tp.getTpID();
+                                price = tp.getTpPrice() + "원";
+                                seller = tp.getUserName();
+                            }
                     %>
                     <tr>
-                        <td><a href="<%= url %>"><%= item.getName() %></a></td>
-                        <td><%= item.getPrice() %>원</td>
-                        <td><%= item.getSeller() %></td>
+                        <td><a href="<%= url %>"><%= name %></a></td>
+                        <td><%= price %></td>
+                        <td><%= seller %></td>
                     </tr>
                     <%
                         }
