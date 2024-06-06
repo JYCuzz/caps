@@ -45,7 +45,7 @@
                         Items_Dao dao = new Items_Dao();
                         List<Item> recentItems = dao.getRecentItems(5);
                         for (Item item : recentItems) {
-                            String url = "${pageContext.request.contextPath}/template/itempage.jsp?type=" + item.getType() + "&id=" + item.getId();
+                            String url = request.getContextPath() + "/template/itempage.jsp?type=" + item.getType() + "&id=" + item.getId();
                     %>
                     <tr>
                         <td><a href="<%= url %>"><%= item.getName() %></a></td>
