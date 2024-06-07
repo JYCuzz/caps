@@ -128,8 +128,10 @@
             </table>
             <div class="item-shipping-details">
                 <p>배송비: 판매자에 의해 결정</p>
-            </div>
+            </div>   
+            <a href="${pageContext.request.contextPath}/template/payment.jsp">
             <button class="item-rent-button">렌트하기</button>
+           
         </div>
     </main>
 </body>
