@@ -1,9 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="user.UserDao, user.User" %>
 <%@ page import="items.Items_laptop_Dao, items.Items_tp_Dao, items.Items_laptop, items.Items_tp, items.Laptop_img_Dao, items.Tp_img_Dao, items.Laptop_img, items.Tp_img" %>
 
 <%
     String type = request.getParameter("type");
     String idParam = request.getParameter("id");
+    String userEmail = (String) session.getAttribute("userEmail"); // 로그인 후 세션에 저장된 이메일을 가져옴
+
+    if (userEmail == null) {
+        response.sendRedirect("login.jsp"); // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+        return;
+    }
+
+    UserDao userDao = new UserDao();
+    User user = userDao.getUserByEmail(userEmail);
+
     int id = 0;
 
     if (idParam != null && !idParam.isEmpty()) {
@@ -113,17 +124,17 @@
                 <h2>배송지 정보</h2>
                 
                 <label for="name">받는 사람</label>
-                <input type="text" id="name" name="orderName" placeholder=" 12자 이내로 입력해주세요 " class="payment-input" required>
+                <input type="text" id="name" name="orderName" value="<%= user.getUserName() %>" placeholder=" 12자 이내로 입력해주세요 " class="payment-input" required>
                     
                 <label for="email">이메일</label>
-                <input type="email" id="email" name="orderEmail" placeholder=" example@email.com " class="payment-input" required>
+                <input type="email" id="email" name="orderEmail" value="<%= user.getUserEmail() %>" placeholder=" example@email.com " class="payment-input" required>
                     
                 <label for="phone">휴대폰</label>
-                <input type="tel" id="phone" name="orderPnum" placeholder=" 010-1234-5678 " class="payment-input" required>
+                <input type="tel" id="phone" name="orderPnum" value="<%= user.getUserPnum() %>" placeholder=" 010-1234-5678 " class="payment-input" required>
                     
                 <label for="address">주소</label>
                 <div class="address-container">
-                    <input type="text" id="address" name="orderAdd1" placeholder="주소를 입력해주세요" class="payment-input half-width" required>
+                    <input type="text" id="address" name="orderAdd1" value="<%= user.getUserAddress() %>" placeholder="주소를 입력해주세요" class="payment-input half-width" required>
                     <input type="text" id="detailed-address" name="orderAdd2" placeholder="상세주소를 입력해주세요" class="payment-input half-width" required>
                 </div>
                     
@@ -214,4 +225,3 @@
     </script>
 </body>
 </html>
-
