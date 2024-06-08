@@ -64,6 +64,16 @@
                             }
                         });
 
+                        // 수량이 0인 아이템 제거
+                        combinedList.removeIf(item -> {
+                            if (item instanceof Items_laptop) {
+                                return ((Items_laptop) item).getLapQuan() == 0;
+                            } else if (item instanceof Items_tp) {
+                                return ((Items_tp) item).getTpQuan() == 0;
+                            }
+                            return false;
+                        });
+
                         for (int i = 0; i < 5 && i < combinedList.size(); i++) {
                             Object item = combinedList.get(i);
                             String name = "", url = "", price = "", seller = "";

@@ -268,5 +268,35 @@ public class Items_tp_Dao {
         }
         return list;
     }
+    
+    public boolean isValidTpID(int tpID) {
+        String SQL = "SELECT tpID FROM Items_tp WHERE tpID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setInt(1, tpID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateQuantity(int tpID, int newQuantity) {
+        String SQL = "UPDATE Items_tp SET tpQuan = ? WHERE tpID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setInt(1, newQuantity);
+            pstmt.setInt(2, tpID);
+            return pstmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+
 
 }

@@ -54,6 +54,9 @@
         out.println("<script>alert('아이템을 찾을 수 없습니다.'); history.back();</script>");
         return;
     }
+
+    String userEmail = (String) session.getAttribute("userEmail");
+    String sellerEmail = type.equals("laptop") ? ((Items_laptop) item).getUserEmail() : ((Items_tp) item).getUserEmail();
 %>
 
 <!DOCTYPE html>
@@ -129,9 +132,10 @@
             <div class="item-shipping-details">
                 <p>배송비: 판매자에 의해 결정</p>
             </div>   
-            <a href="${pageContext.request.contextPath}/template/payment.jsp">
-            <button class="item-rent-button">렌트하기</button>
-           
+            <a id="rentLink" href="${pageContext.request.contextPath}/template/payment.jsp?type=<%= type %>&id=<%= id %>"></a>
+            <% if (!userEmail.equals(sellerEmail)) { %>
+            <button class="item-rent-button" onclick="document.getElementById('rentLink').click()">렌트하기</button>
+            <% } %>
         </div>
     </main>
 </body>

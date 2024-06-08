@@ -51,12 +51,13 @@
         <div class="tablet-item-list">
             <%
                 for (Items_tp item : items) {
-                    String imgPath = dao.getImagePathByTpID(item.getTpID());
-                    if (imgPath == null) {
-                        imgPath = "https://via.placeholder.com/150";
-                    } else {
-                        imgPath = request.getContextPath() + imgPath;
-                    }
+                    if (item.getTpQuan() > 0) { // 수량이 0이 아닌 경우에만 표시
+                        String imgPath = dao.getImagePathByTpID(item.getTpID());
+                        if (imgPath == null) {
+                            imgPath = "https://via.placeholder.com/150";
+                        } else {
+                            imgPath = request.getContextPath() + imgPath;
+                        }
             %>
             <div class="tablet-item">
                 <a href="${pageContext.request.contextPath}/template/itempage.jsp?type=pad&id=<%= item.getTpID() %>">
@@ -69,6 +70,7 @@
                 <p>브랜드: <%= item.getTpBrand() %></p>
             </div>
             <%
+                    }
                 }
             %>
         </div>

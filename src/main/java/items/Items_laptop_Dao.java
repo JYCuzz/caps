@@ -237,5 +237,33 @@ public class Items_laptop_Dao {
         }
         return list;
     }
+    
+    public boolean isValidLaptopID(int lapID) {
+        String SQL = "SELECT lapID FROM Items_laptop WHERE lapID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setInt(1, lapID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+ 
+    public boolean updateQuantity(int lapID, int newQuantity) {
+        String SQL = "UPDATE Items_laptop SET lapQuan = ? WHERE lapID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setInt(1, newQuantity);
+            pstmt.setInt(2, lapID);
+            return pstmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
 
 }

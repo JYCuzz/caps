@@ -51,12 +51,13 @@
         <div class="laptop-item-list">
             <%
                 for (Items_laptop item : items) {
-                    String imgPath = dao.getImagePathByLapID(item.getLapID());
-                    if (imgPath == null) {
-                        imgPath = "https://via.placeholder.com/150";
-                    } else {
-                        imgPath = request.getContextPath() + imgPath;
-                    }
+                    if (item.getLapQuan() > 0) { // 수량이 0이 아닌 경우에만 표시
+                        String imgPath = dao.getImagePathByLapID(item.getLapID());
+                        if (imgPath == null) {
+                            imgPath = "https://via.placeholder.com/150";
+                        } else {
+                            imgPath = request.getContextPath() + imgPath;
+                        }
             %>
             <div class="laptop-item">
                 <a href="${pageContext.request.contextPath}/template/itempage.jsp?type=laptop&id=<%= item.getLapID() %>">
@@ -69,6 +70,7 @@
                 <p>브랜드: <%= item.getLapBrand() %></p>
             </div>
             <%
+                    }
                 }
             %>
         </div>
