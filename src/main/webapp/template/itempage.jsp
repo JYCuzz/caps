@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="user.UserDao, user.User"%>
 <%@ page import="items.Items_laptop_Dao"%>
 <%@ page import="items.Items_tp_Dao"%>
 <%@ page import="items.Items_laptop"%>
@@ -56,6 +57,13 @@
     }
 
     String userEmail = (String) session.getAttribute("userEmail");
+    UserDao userDao = new UserDao();
+    User user = null;
+
+    if (userEmail != null) {
+        user = userDao.getUserByEmail(userEmail);
+    }
+
     String sellerEmail = type.equals("laptop") ? ((Items_laptop) item).getUserEmail() : ((Items_tp) item).getUserEmail();
 %>
 
@@ -133,7 +141,7 @@
                 <p>배송비: 판매자에 의해 결정</p>
             </div>   
             <a id="rentLink" href="${pageContext.request.contextPath}/template/payment.jsp?type=<%= type %>&id=<%= id %>"></a>
-            <% if (!userEmail.equals(sellerEmail)) { %>
+            <% if (userEmail == null || !userEmail.equals(sellerEmail)) { %>
             <button class="item-rent-button" onclick="document.getElementById('rentLink').click()">렌트하기</button>
             <% } %>
         </div>
