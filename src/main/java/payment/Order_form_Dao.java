@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 public class Order_form_Dao {
@@ -269,6 +271,136 @@ public class Order_form_Dao {
         }
         return null;
     }
+   
+
+    public List<Order_form_lap> getBorrowedLaptopOrdersByUserEmail(String userEmail) {
+        String SQL = "SELECT * FROM Order_form_lap WHERE userEmail = ?";
+        List<Order_form_lap> list = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, userEmail);
+            System.out.println("Executing query: " + pstmt); // 디버그 로그 추가
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Order_form_lap order = new Order_form_lap();
+                    order.setOrderID(rs.getString("orderID"));
+                    order.setOrderQuan(rs.getInt("orderQuan"));
+                    order.setOrderRent(rs.getString("orderRent"));
+                    order.setOrderName(rs.getString("orderName"));
+                    order.setOrderEmail(rs.getString("orderEmail"));
+                    order.setOrderPnum(rs.getString("orderPnum"));
+                    order.setOrderAdd1(rs.getString("orderAdd1"));
+                    order.setOrderAdd2(rs.getString("orderAdd2"));
+                    order.setOrderReq(rs.getString("orderReq"));
+                    order.setOrderTotal(rs.getInt("orderTotal"));
+                    order.setOrderNow(formatTimestamp(rs.getTimestamp("orderNow")));
+                    order.setOrderReturn(formatTimestamp(rs.getTimestamp("orderReturn")));
+                    order.setUserEmail(rs.getString("userEmail"));
+                    order.setLapID(rs.getInt("lapID"));
+                    list.add(order);
+                }
+            }
+            System.out.println("Borrowed Laptop Orders: " + list.size()); // 디버그 로그 추가
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Order_form_tp> getBorrowedTpOrdersByUserEmail(String userEmail) {
+        String SQL = "SELECT * FROM Order_form_tp WHERE userEmail = ?";
+        List<Order_form_tp> list = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, userEmail);
+            System.out.println("Executing query: " + pstmt); // 디버그 로그 추가
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Order_form_tp order = new Order_form_tp();
+                    order.setOrderID(rs.getString("orderID"));
+                    order.setOrderQuan(rs.getInt("orderQuan"));
+                    order.setOrderRent(rs.getString("orderRent"));
+                    order.setOrderName(rs.getString("orderName"));
+                    order.setOrderEmail(rs.getString("orderEmail"));
+                    order.setOrderPnum(rs.getString("orderPnum"));
+                    order.setOrderAdd1(rs.getString("orderAdd1"));
+                    order.setOrderAdd2(rs.getString("orderAdd2"));
+                    order.setOrderReq(rs.getString("orderReq"));
+                    order.setOrderTotal(rs.getInt("orderTotal"));
+                    order.setOrderNow(formatTimestamp(rs.getTimestamp("orderNow")));
+                    order.setOrderReturn(formatTimestamp(rs.getTimestamp("orderReturn")));
+                    order.setUserEmail(rs.getString("userEmail"));
+                    order.setTpID(rs.getInt("tpID"));
+                    list.add(order);
+                }
+            }
+            System.out.println("Borrowed TP Orders: " + list.size()); // 디버그 로그 추가
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
     
+    public List<Order_form_lap> getLentLaptopOrdersByUserEmail(String ownerEmail) {
+        String SQL = "SELECT * FROM Order_form_lap WHERE lapID IN (SELECT lapID FROM Items_laptop WHERE userEmail = ?)";
+        List<Order_form_lap> list = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, ownerEmail);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Order_form_lap order = new Order_form_lap();
+                    order.setOrderID(rs.getString("orderID"));
+                    order.setOrderQuan(rs.getInt("orderQuan"));
+                    order.setOrderRent(rs.getString("orderRent"));
+                    order.setOrderName(rs.getString("orderName"));
+                    order.setOrderEmail(rs.getString("orderEmail")); // 빌려간 사용자의 이메일
+                    order.setOrderPnum(rs.getString("orderPnum"));
+                    order.setOrderAdd1(rs.getString("orderAdd1"));
+                    order.setOrderAdd2(rs.getString("orderAdd2"));
+                    order.setOrderReq(rs.getString("orderReq"));
+                    order.setOrderTotal(rs.getInt("orderTotal"));
+                    order.setOrderNow(formatTimestamp(rs.getTimestamp("orderNow")));
+                    order.setOrderReturn(formatTimestamp(rs.getTimestamp("orderReturn")));
+                    order.setUserEmail(rs.getString("userEmail"));
+                    order.setLapID(rs.getInt("lapID"));
+                    list.add(order);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Order_form_tp> getLentTpOrdersByUserEmail(String ownerEmail) {
+        String SQL = "SELECT * FROM Order_form_tp WHERE tpID IN (SELECT tpID FROM Items_tp WHERE userEmail = ?)";
+        List<Order_form_tp> list = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, ownerEmail);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Order_form_tp order = new Order_form_tp();
+                    order.setOrderID(rs.getString("orderID"));
+                    order.setOrderQuan(rs.getInt("orderQuan"));
+                    order.setOrderRent(rs.getString("orderRent"));
+                    order.setOrderName(rs.getString("orderName"));
+                    order.setOrderEmail(rs.getString("orderEmail")); // 빌려간 사용자의 이메일
+                    order.setOrderPnum(rs.getString("orderPnum"));
+                    order.setOrderAdd1(rs.getString("orderAdd1"));
+                    order.setOrderAdd2(rs.getString("orderAdd2"));
+                    order.setOrderReq(rs.getString("orderReq"));
+                    order.setOrderTotal(rs.getInt("orderTotal"));
+                    order.setOrderNow(formatTimestamp(rs.getTimestamp("orderNow")));
+                    order.setOrderReturn(formatTimestamp(rs.getTimestamp("orderReturn")));
+                    order.setUserEmail(rs.getString("userEmail"));
+                    order.setTpID(rs.getInt("tpID"));
+                    list.add(order);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 }

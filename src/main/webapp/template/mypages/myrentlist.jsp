@@ -8,17 +8,25 @@
 <%@ page import="items.Items_tp" %>
 <%@ page import="items.Laptop_img" %>
 <%@ page import="items.Tp_img" %>
+<%@ page import="payment.Order_form_Dao" %>
+<%@ page import="payment.Order_form_lap" %>
+<%@ page import="payment.Order_form_tp" %>
 
 <%
     Items_laptop_Dao laptopDao = new Items_laptop_Dao();
     Items_tp_Dao tpDao = new Items_tp_Dao();
     Laptop_img_Dao laptopImgDao = new Laptop_img_Dao();
     Tp_img_Dao tpImgDao = new Tp_img_Dao();
+    Order_form_Dao orderDao = new Order_form_Dao();
 
     String userEmail = (String) session.getAttribute("userEmail");
 
     List<Items_laptop> laptopList = laptopDao.getItemsByUserEmail(userEmail);
     List<Items_tp> tpList = tpDao.getItemsByUserEmail(userEmail);
+    List<Order_form_lap> borrowedLaptopOrders = orderDao.getBorrowedLaptopOrdersByUserEmail(userEmail);
+    List<Order_form_tp> borrowedTpOrders = orderDao.getBorrowedTpOrdersByUserEmail(userEmail);
+    List<Order_form_lap> lentLaptopOrders = orderDao.getLentLaptopOrdersByUserEmail(userEmail);
+    List<Order_form_tp> lentTpOrders = orderDao.getLentTpOrdersByUserEmail(userEmail);
 %>
 
 <!DOCTYPE html>
@@ -43,14 +51,88 @@
         <div class="rental-container">
             <h2>대여한 물품</h2>
             <table class="rental-table">
-                <!-- 기존 대여한 물품 리스트 -->
+                <thead>
+                    <tr>
+                        <th>사진</th>
+                        <th>이름</th>
+                        <th>아이템 주인의 이메일</th>
+                        <th>반납일</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <%
+        for (Order_form_lap order : borrowedLaptopOrders) {
+            Items_laptop laptop = laptopDao.getItemById(order.getLapID());
+            Laptop_img laptopImg = laptopImgDao.getImageByLapID(laptop.getLapID());
+    %>
+        <tr>
+            <td><img src="<%= request.getContextPath() + "/uploads_laptop/" + laptopImg.getLap_img_Name() %>" alt="<%= laptop.getLapName() %>"></td>
+            <td><%= laptop.getLapName() %></td>
+            <td><%= laptop.getUserEmail() %></td> <!-- 주인의 이메일 -->
+            <td><%= order.getOrderReturn() %></td>
+        </tr>
+    <%
+        }
+
+        for (Order_form_tp order : borrowedTpOrders) {
+            Items_tp tp = tpDao.getItemById(order.getTpID());
+            Tp_img tpImg = tpImgDao.getImageByTpID(tp.getTpID());
+    %>
+        <tr>
+            <td><img src="<%= request.getContextPath() + "/uploads_tp/" + tpImg.getTp_img_Name() %>" alt="<%= tp.getTpName() %>"></td>
+            <td><%= tp.getTpName() %></td>
+            <td><%= tp.getUserEmail() %></td> <!-- 주인의 이메일 -->
+            <td><%= order.getOrderReturn() %></td>
+        </tr>
+    <%
+        }
+    %>
+</tbody>
+
             </table>
-            
-            <h2>대여해준 물품</h2>
+
+            <h2>내 물품을 빌려준 리스트</h2>
             <table class="rental-table">
-                <!-- 기존 대여해준 물품 리스트 -->
+                <thead>
+                    <tr>
+                        <th>사진</th>
+                        <th>이름</th>
+                        <th>사용자 이메일</th>
+                        <th>반납일</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <%
+        for (Order_form_lap order : lentLaptopOrders) {
+            Items_laptop laptop = laptopDao.getItemById(order.getLapID());
+            Laptop_img laptopImg = laptopImgDao.getImageByLapID(laptop.getLapID());
+    %>
+        <tr>
+            <td><img src="<%= request.getContextPath() + "/uploads_laptop/" + laptopImg.getLap_img_Name() %>" alt="<%= laptop.getLapName() %>"></td>
+            <td><%= laptop.getLapName() %></td>
+            <td><%= order.getOrderEmail() %></td>
+            <td><%= order.getOrderReturn() %></td>
+        </tr>
+    <%
+        }
+
+        for (Order_form_tp order : lentTpOrders) {
+            Items_tp tp = tpDao.getItemById(order.getTpID());
+            Tp_img tpImg = tpImgDao.getImageByTpID(tp.getTpID());
+    %>
+        <tr>
+            <td><img src="<%= request.getContextPath() + "/uploads_tp/" + tpImg.getTp_img_Name() %>" alt="<%= tp.getTpName() %>"></td>
+            <td><%= tp.getTpName() %></td>
+            <td><%= order.getOrderEmail() %></td>
+            <td><%= order.getOrderReturn() %></td>
+        </tr>
+    <%
+        }
+    %>
+</tbody>
+
             </table>
-            
+
             <h2>대여등록 리스트</h2>
             <div class="register-button-container">
                 <a href="${pageContext.request.contextPath}/template/registerRent.jsp">
