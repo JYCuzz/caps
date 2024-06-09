@@ -8,22 +8,68 @@
 <%@ page import="items.Tp_img_Dao"%>
 <%@ page import="items.Laptop_img"%>
 <%@ page import="items.Tp_img"%>
+<%@ page import="alarm.AlarmDao"%>
+<%@ page import="java.io.IOException"%>
 
 <%
     String type = request.getParameter("type");
     String idParam = request.getParameter("id");
     int id = 0;
+    String desiredPriceParam = request.getParameter("desiredPrice");
+    String action = request.getParameter("action");
+    String userEmail = (String) session.getAttribute("userEmail");
+    UserDao userDao = new UserDao();
+    User user = null;
+
+    if (userEmail != null) {
+        user = userDao.getUserByEmail(userEmail);
+    }
 
     if (idParam != null && !idParam.isEmpty()) {
         try {
             id = Integer.parseInt(idParam);
         } catch (NumberFormatException e) {
-            // 유효하지 않은 숫자 형식일 경우 처리할 코드
             out.println("유효하지 않은 id 형식입니다.");
         }
     } else {
-        // id 파라미터가 없을 경우 처리할 코드
         out.println("id 파라미터가 없습니다.");
+    }
+
+    if ("setPriceAlert".equals(action) && desiredPriceParam != null && !desiredPriceParam.isEmpty()) {
+        try {
+            int desiredPrice = Integer.parseInt(desiredPriceParam);
+            String itemName = "";
+
+            if ("laptop".equals(type)) {
+                Items_laptop_Dao dao = new Items_laptop_Dao();
+                Items_laptop item = dao.getItemById(id);
+                if (item != null) {
+                    itemName = item.getLapName();
+                    if (item.getLapPrice() > desiredPrice) {
+                        AlarmDao alarmDao = new AlarmDao();
+                        alarmDao.addAlarm(userEmail, itemName + "의 가격 " + desiredPrice + "원 도달 시 알람을 보내드립니다.");
+                        out.println("<script>alert('알림이 설정되었습니다.');</script>");
+                    } else {
+                        out.println("<script>alert('희망 가격이 현재 가격보다 같거나 높습니다.');</script>");
+                    }
+                }
+            } else if ("pad".equals(type)) {
+                Items_tp_Dao dao = new Items_tp_Dao();
+                Items_tp item = dao.getItemById(id);
+                if (item != null) {
+                    itemName = item.getTpName();
+                    if (item.getTpPrice() > desiredPrice) {
+                        AlarmDao alarmDao = new AlarmDao();
+                        alarmDao.addAlarm(userEmail, itemName + "의 가격 " + desiredPrice + "원 도달 시 알람을 보내드립니다.");
+                        out.println("<script>alert('알림이 설정되었습니다.');</script>");
+                    } else {
+                        out.println("<script>alert('희망 가격이 현재 가격보다 같거나 높습니다.');</script>");
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            out.println("유효하지 않은 가격 형식입니다.");
+        }
     }
 
     Object item = null;
@@ -56,14 +102,6 @@
         return;
     }
 
-    String userEmail = (String) session.getAttribute("userEmail");
-    UserDao userDao = new UserDao();
-    User user = null;
-
-    if (userEmail != null) {
-        user = userDao.getUserByEmail(userEmail);
-    }
-
     String sellerEmail = type.equals("laptop") ? ((Items_laptop) item).getUserEmail() : ((Items_tp) item).getUserEmail();
 %>
 
@@ -74,6 +112,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아이템 상세 정보</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/design.css?after">
+    <style>
+        .item-category {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .item-category input[type="text"] {
+            flex-grow: 1;
+            padding: 5px;
+            margin-right: 10px;
+            width: 300px; /* 입력 폼의 기본 너비 */
+        }
+
+        .item-icon {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function setPriceAlert() {
+            document.getElementById('priceAlertForm').submit();
+        }
+    </script>
 </head>
 <body>
     <jsp:include page="/WEB-INF/header.jsp" />
@@ -81,8 +142,13 @@
     <main class="item-main-content">
         <div class="item-sidebar">
             <div class="item-category">
-                <p>희망하는 가격대를 입력하세요. 알림으로 소식을 전해 드립니다.</p>
-                <div class="item-icon">
+                <form id="priceAlertForm" method="get" action="itempage.jsp">
+                    <input type="hidden" name="type" value="<%= type %>">
+                    <input type="hidden" name="id" value="<%= id %>">
+                    <input type="hidden" name="action" value="setPriceAlert">
+                    <input type="text" name="desiredPrice" placeholder="희망하는 가격대를 입력하세요. 알림으로 소식을 전해 드립니다.">
+                </form>
+                <div class="item-icon" onclick="setPriceAlert()">
                     <img src="${pageContext.request.contextPath}/static/img/alarm.jpg" alt="알림 아이콘">
                 </div>
             </div>

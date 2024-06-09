@@ -15,6 +15,14 @@ public class Order_form_tp {
     private String orderReturn;
     private String userEmail;
     private int tpID;
+    private String tpName;
+    
+    public String getTpName() {
+		return tpName;
+	}
+	public void setTpName(String tpName) {
+		this.tpName = tpName;
+	}
 	public String getOrderID() {
 		return orderID;
 	}

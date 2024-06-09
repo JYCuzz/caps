@@ -16,6 +16,15 @@ public class Order_form_lap {
     private String orderReturn;
     private String userEmail;
     private int lapID;
+    private String lapName;
+    
+    public String getLapName() {
+		return lapName;
+	}
+	public void setLapName(String lapName) {
+		this.lapName = lapName;
+	}
+	
 	public String getOrderID() {
 		return orderID;
 	}

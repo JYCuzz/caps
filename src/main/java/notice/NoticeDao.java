@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import alarm.AlarmDao;
 
 public class NoticeDao {
     public Connection conn;
@@ -24,10 +25,9 @@ public class NoticeDao {
         }
     }
 
-    // 공지사항 전체를 최신 순서대로 가져오는 메서드
     public List<Notice> getAllNotices() {
         List<Notice> notices = new ArrayList<>();
-        String SQL = "SELECT * FROM notice ORDER BY date DESC"; // 날짜를 기준으로 내림차순 정렬
+        String SQL = "SELECT * FROM notice ORDER BY date DESC";
         try {
             pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();
@@ -45,10 +45,9 @@ public class NoticeDao {
         return notices;
     }
 
-    // 제목으로 공지사항을 검색하는 메서드 (LIKE 연산자 사용)
     public List<Notice> getNoticesByTitle(String searchKeyword) {
         List<Notice> notices = new ArrayList<>();
-        String SQL = "SELECT * FROM notice WHERE title LIKE ? ORDER BY date DESC"; // 날짜를 기준으로 내림차순 정렬
+        String SQL = "SELECT * FROM notice WHERE title LIKE ? ORDER BY date DESC";
         try {
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, "%" + searchKeyword + "%");
@@ -67,7 +66,6 @@ public class NoticeDao {
         return notices;
     }
 
-    // 공지사항의 제목만 가져오는 메서드
     public List<String> getAllNoticeTitles() {
         List<String> titles = new ArrayList<>();
         String SQL = "SELECT title FROM notice";
@@ -83,7 +81,6 @@ public class NoticeDao {
         return titles;
     }
 
-    // 새로운 공지사항을 추가하는 메서드 (이메일은 세션에서 가져옴)
     public void addNotice(String title, String content, String userEmail) {
         String SQL = "INSERT INTO notice (userEmail, title, content, date) VALUES (?, ?, ?, NOW())";
         try {
@@ -92,11 +89,16 @@ public class NoticeDao {
             pstmt.setString(2, title);
             pstmt.setString(3, content);
             pstmt.executeUpdate();
+
+            // 알림 추가
+            AlarmDao alarmDao = new AlarmDao();
+            String alarmTitle = "새로운 공지사항이 올라왔습니다: <a href='${pageContext.request.contextPath}/template/notice_detail.jsp?title=" + title + "'>" + title + "</a>";
+            alarmDao.addAlarmToAllUsers(alarmTitle);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public Notice getNoticeByTitle(String title) {
         Notice notice = null;
         String SQL = "SELECT * FROM notice WHERE title = ?";
@@ -116,6 +118,4 @@ public class NoticeDao {
         }
         return notice;
     }
-    
-    
 }
